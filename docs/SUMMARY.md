@@ -7,3 +7,4 @@ Title of Part
 
 - [Background](background.md)
 - [Data Architecture](data_architecture.md)
+- [Architecture](architecture.md)
