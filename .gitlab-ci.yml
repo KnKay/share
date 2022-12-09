@@ -35,7 +35,7 @@ pages:
           <head>
           </head>
           <body>
-            <p>Docs <a href=\"/gocat/book/index.html\">this link</a>.</p>
+            <p>Docs <a href=\"/share/book/index.html\">this link</a>.</p>
           </body>
         </html>
       " > public/index.html
