@@ -2,3 +2,6 @@
 book
 docs/mdbook-plantuml-img
 output.log
+
+# Python
+.venv

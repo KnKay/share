@@ -5,11 +5,20 @@ stages:
   - publish
   - deploy
 
+.backend:
+  image: python
+  before_script:
+    - cd backend
+
 
 test::code:
   stage: test
+  extends:
+    - .backend
   script:
     - echo "To do"
+    # - pip3 install .[tests]
+    # - python3 -m pytest
 
 build::docs:
   stage: build
@@ -21,6 +30,13 @@ build::docs:
   artifacts:
     paths:
       - book
+
+build::code:
+  stage: build
+  extends:
+    - .backend
+  script:
+    - pip3 install .
 
 pages:
   stage: publish
