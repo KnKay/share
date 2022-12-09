@@ -1,0 +1,9 @@
+[book]
+authors = ["Kay Richter"]
+multilingual = false
+src = "docs"
+title = "My Book"
+
+[preprocessor.plantuml]
+plantuml-cmd="https://plantuml.io/plantuml"
+command = "mdbook-plantuml -l"

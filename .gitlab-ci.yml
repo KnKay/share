@@ -1,0 +1,46 @@
+stages:
+  - test
+  - build
+  - integration_test
+  - publish
+  - deploy
+
+
+test::code:
+  stage: test
+  script:
+    - echo "To do"
+
+build::docs:
+  stage: build
+  image:
+    name: michaelfbryan/mdbook-docker-image
+    entrypoint: [""]
+  script:
+    - mdbook build
+  artifacts:
+    paths:
+      - book
+
+pages:
+  stage: publish
+  script:
+  - mkdir public
+  - cp -r book public
+  # - cp -r test public
+  - >
+      echo "
+      <!DOCTYPE html>
+        <html>
+          <head>
+          </head>
+          <body>
+            <p>Docs <a href=\"/gocat/book/index.html\">this link</a>.</p>
+          </body>
+        </html>
+      " > public/index.html
+  artifacts:
+    paths:
+    - public
+    expire_in: 1 day
+
