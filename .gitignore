@@ -5,3 +5,12 @@ output.log
 
 # Python
 .venv
+__pycache__
+
+# Django
+db.sqlite3
+
+# Code
+.devcontainer
+build
+share.egg-info
