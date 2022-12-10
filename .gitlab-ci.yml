@@ -8,7 +8,7 @@ stages:
 .backend:
   image: python
   before_script:
-    - cd backend
+    - echo "Backend Stuff"
 
 
 test::code:
