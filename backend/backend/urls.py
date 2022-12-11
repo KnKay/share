@@ -16,8 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from rest_framework import routers
+from assets import views as asset_views
+from userprofiles import views as profile_views
+
+router = routers.SimpleRouter()
+router.register(r'asset', asset_views.AssetViewSet)
+router.register(r'assetgroup', asset_views.AssetGroupViewSet)
+router.register(r'profile', profile_views.ProfileViewSet)
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("profile/", include("userprofiles.urls")),
-    path("asset/", include("assets.urls")),
+    path('api/v1/', include(router.urls)),
 ]

@@ -12,6 +12,10 @@ class AssetGroup(models.Model):
     price_time = models.FloatField()
     form_template = models.TextField()
 
+    def __str__(self):
+        return f'{self.name} {self.admin_group.name}'
+
+
 class Asset(models.Model):
     name = models.CharField(max_length=20)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -20,3 +24,5 @@ class Asset(models.Model):
     price_usage = models.FloatField()
     price_time = models.FloatField()
     form_data = models.TextField()
+    def __str__(self):
+        return f'{self.name} {self.owner}'
