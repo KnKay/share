@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    'rest_framework_simplejwt',
     "userprofiles.apps.UserprofilesConfig",
     "share.apps.ShareConfig",
 ]
@@ -127,9 +128,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Rest Framework Pagination set to 50 for the beginning, might need adjustment
 REST_FRAMEWORK = {
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
-    # ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
     # 'DEFAULT_PAGINATION_CLASS':
     #     'rest_framework.pagination.PageNumberPagination',
     # 'PAGE_SIZE': 50

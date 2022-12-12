@@ -6,5 +6,5 @@ The main goal is to get an easy step into your research for this. The actual che
 Title of Part
 
 - [Background](background.md)
-- [Data Architecture](data_architecture.md)
 - [Architecture](architecture.md)
+- [Data Architecture](data_architecture.md)
