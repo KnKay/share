@@ -17,12 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 
 from rest_framework import routers
-from assets import views as asset_views
+from share import views as views
 from userprofiles import views as profile_views
 
 router = routers.SimpleRouter()
-router.register(r'asset', asset_views.AssetViewSet)
-router.register(r'assetgroup', asset_views.AssetGroupViewSet)
+router.register(r'asset', views.AssetViewSet)
+router.register(r'assetgroup', views.AssetGroupViewSet)
 router.register(r'profile', profile_views.ProfileViewSet)
 
 urlpatterns = [
