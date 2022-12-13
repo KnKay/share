@@ -5,11 +5,12 @@ from django.contrib.auth.models import Group, User
 
 class AssetGroup(models.Model):
     name = models.CharField(max_length=20)
-    admin_group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    open = models.BooleanField()
-    price_rental = models.FloatField()
-    price_usage = models.FloatField()
-    price_time = models.FloatField()
+    admin_group = models.ForeignKey(Group, on_delete=models.CASCADE, blank=True, null=True)
+    open = models.BooleanField(default=True)
+    price_rental = models.FloatField(default=0)
+    price_usage = models.FloatField(default=0)
+    price_time = models.FloatField(default=0)
+    description = models.TextField(default="Description Text")
     form_template = models.TextField()
 
     def __str__(self):
@@ -24,5 +25,7 @@ class Asset(models.Model):
     price_usage = models.FloatField()
     price_time = models.FloatField()
     form_data = models.TextField()
+    approved = models.BooleanField(default=False)
+
     def __str__(self):
         return f'{self.name} {self.owner}'

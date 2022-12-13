@@ -29,7 +29,7 @@ from userprofiles import views as profile_views
 
 router = routers.SimpleRouter()
 router.register(r'asset', views.AssetViewSet)
-router.register(r'assetgroup', views.AssetGroupViewSet)
+# router.register(r'assetgroup', views.AssetGroupViewSet)
 router.register(r'profile', profile_views.ProfileViewSet)
 
 urlpatterns = [
@@ -38,6 +38,8 @@ urlpatterns = [
     path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+
+    path('api/v1/assetgroup/', views.AssetGroupViewSet.as_view({'post': 'post'})),
 
     path("profile/", include("userprofiles.urls")),
     path('api/v1/', include(router.urls)),

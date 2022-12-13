@@ -12,5 +12,4 @@ class AssetSerializer(serializers.ModelSerializer):
 class AssetGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = AssetGroup
-        fields = ['name', 'open', 'admin_group']
-
+        fields = ['id', 'name', 'open', 'admin_group', 'description']
