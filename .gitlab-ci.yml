@@ -17,8 +17,20 @@ test::code:
     - .backend
   script:
     - echo "To do"
-    # - pip3 install .[tests]
-    # - python3 -m pytest
+    - pip3 install .[tests]
+    - coverage run --source='.' manage.py test
+    - coverage report
+  artifacts:
+    path:
+      .coverage
+
+
+test::robot:
+  stage: test
+  extends:
+    - .backend
+  script:
+    - echo "To do"
 
 build::docs:
   stage: build
