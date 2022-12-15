@@ -7,11 +7,13 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from share.permissions import IsAdminOrOwnerOrReadOnly
+
 from .models import Profile
 from .serializers import ProfileSerializer
 
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    # permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (IsAdminOrOwnerOrReadOnly ,)
 
