@@ -20,6 +20,7 @@ class AssetGroup(models.Model):
     price_time = models.FloatField(default=0)
     description = models.TextField(default="Description Text")
     form_template = models.TextField()
+    pic = models.BinaryField(blank=True)
 
     def __str__(self):
         return f'{self.name}'
@@ -36,6 +37,7 @@ class Asset(models.Model):
     price_time = models.FloatField(default=0)
     form_data = models.TextField()
     approved = models.BooleanField(default=False)
+    pic = models.BinaryField(blank=True)
 
     def __str__(self):
         return f'{self.name}'
