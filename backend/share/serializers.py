@@ -1,7 +1,7 @@
-from django.contrib.auth.models import User
+
 from rest_framework import serializers
 
-from .models import Asset, AssetGroup
+from .models import Asset, AssetGroup, Transaction
 
 
 class AssetSerializer(serializers.ModelSerializer):
@@ -13,3 +13,9 @@ class AssetGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = AssetGroup
         fields = ['id', 'name', 'open', 'admin_group', 'description']
+
+class TransactionSerializer(serializers.ModelSerializer):
+    asset = AssetSerializer(read_only=True)
+    class Meta:
+        model = Transaction
+        fields = ['id', 'asset', 'owner']
