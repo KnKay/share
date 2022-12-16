@@ -13,4 +13,4 @@ class ProfileSerializer(serializers.ModelSerializer):
     user =  UserSerializer(read_only=True)
     class Meta:
         model = Profile
-        fields = ['user', 'post_code', 'user_pic']
+        fields = ['user', 'post_code']
