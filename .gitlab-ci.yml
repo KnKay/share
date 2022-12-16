@@ -19,10 +19,12 @@ test::code:
     - echo "To do"
     - pip3 install .[tests]
     - coverage run --source='.' manage.py test
-    - coverage report
+    - coverage xml
   artifacts:
-    paths:
-      .coverage
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
 
 
 test::robot:
