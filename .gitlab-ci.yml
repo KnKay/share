@@ -8,6 +8,7 @@ stages:
 .backend:
   image: python
   before_script:
+    - pip3 install .[tests]
     - cd backend
 
 test::code:
@@ -15,7 +16,6 @@ test::code:
   extends:
     - .backend
   script:
-    - pip3 install .[tests]
     - coverage run --source='.' manage.py test
     - coverage xml
   artifacts:
