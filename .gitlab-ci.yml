@@ -48,7 +48,7 @@ build::code:
   extends:
     - .backend
   script:
-    - pip3 install .
+    - echo "Nothing to do here"
 
 pages:
   stage: publish
