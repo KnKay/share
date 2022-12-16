@@ -5,9 +5,30 @@ stages:
   - publish
   - deploy
 
+.backend:
+  image: python
+  before_script:
+    - pip3 install .[tests]
+    - cd backend
 
 test::code:
   stage: test
+  extends:
+    - .backend
+  script:
+    - coverage run --source='.' manage.py test
+    - coverage xml
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: backend/coverage.xml
+
+
+test::robot:
+  stage: test
+  extends:
+    - .backend
   script:
     - echo "To do"
 
@@ -21,6 +42,13 @@ build::docs:
   artifacts:
     paths:
       - book
+
+build::code:
+  stage: build
+  extends:
+    - .backend
+  script:
+    - echo "Nothing to do here"
 
 pages:
   stage: publish

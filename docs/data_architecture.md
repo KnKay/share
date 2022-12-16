@@ -10,10 +10,10 @@ Following I will describe the sections used in the database. This should somehow
 Anything related to user management. This will be straight forward to enable RBAC stuff
 
 ### Entities
-Users will be all the persons allowed to login.
-Groups will be used to specify RBAC things.
+As we will use Django for first backend things we use the auth stuff from over there.
+This will help to keep the code base a bit lower.
 
-Both will be connected via an connection group
+As the stuff is not a full version of what we want we extend the user. This is done via option  of this tutorial: https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html
 
 ### Design
 
@@ -22,25 +22,24 @@ Both will be connected via an connection group
 
 left to right direction
 
-class user {
- Int id
- String username
- String email
- String fullname
- String street
- String plz
- Bool is_full_admin
+class auth_user {
+ From Django
 }
-class group {
-  int id
-  String name
+
+class userprofile {
+  String street
+  String City
+  String postcode
 }
-class user_group {
-  int user
-  int group
+
+class auth_group {
+  from Django
 }
-user }|--|{ user_group
-user_group  }|--|{ group
+class auth_user_groups {
+  from Django
+}
+auth_user }|--|{ auth_user_group
+auth_user_group  }|--|{ auth_group
 
 @enduml
 ```
