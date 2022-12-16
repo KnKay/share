@@ -8,15 +8,13 @@ stages:
 .backend:
   image: python
   before_script:
-    - echo "Backend Stuff"
-
+    - cd backend
 
 test::code:
   stage: test
   extends:
     - .backend
   script:
-    - echo "To do"
     - pip3 install .[tests]
     - coverage run --source='.' manage.py test
     - coverage xml
