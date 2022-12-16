@@ -21,7 +21,7 @@ test::code:
     - coverage run --source='.' manage.py test
     - coverage report
   artifacts:
-    path:
+    paths:
       .coverage
 
 
