@@ -30,3 +30,5 @@ class ProfileViewSet(viewsets.ModelViewSet):
         response = Profile.objects.get(user_id=id)
         return Response(ProfileSerializer(response).data)
 
+    def register(request):
+        pass

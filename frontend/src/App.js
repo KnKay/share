@@ -9,21 +9,26 @@ import './App.css';
 import Login  from './components/Login';
 import Test from './components/Test'
 import Mainmenu from "./components/Mainmenu";
+import Register from "./components/Register"
+
 import { isLoggedIn } from "axios-jwt";
+import {Route, Routes} from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
       <div className={"flex flex-column"}
                  style={{width: "100%", height: "100%", position: "absolute"}}>
-        {isLoggedIn()
-        ?<div className={"grid m-0"}>
+
+        <div className={"grid m-0"}>
           <Mainmenu />
-          <Test />
         </div>
-        : <Login />
-        }
+          <div className={"grid m-0"}>
+            <p>Hi</p>
+            <Register/>
         </div>
+
+      </div>
 
     </div>
   );

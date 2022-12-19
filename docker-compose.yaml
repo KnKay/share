@@ -2,7 +2,8 @@ version: '3'
 
 services:
   backend:
-    build: ./backend
+    image: python
+    # build: ./backend
     ports:
       - '8000:8000'
     environment:
@@ -13,3 +14,14 @@ services:
       python3 manage.py migrate && \
       python3 manage.py createsuperuser --email=admin@admin.com --noinput || true && \
       python3 manage.py runserver 0.0.0.0:8000'
+    volumes:
+      - backend:/app
+  frontend:
+    image: node
+    ports:
+      - '3000:3000'
+    entrypoint : |
+      bash -c '
+      npm start'
+    volumes:
+      - backend:/app

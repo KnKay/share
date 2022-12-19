@@ -44,6 +44,6 @@ urlpatterns = [
     path(r'api/v1/transaction/<int:id>',
         views.TransactionViewSet.as_view({'put': 'update', 'get':'retrieve'},)),
 
-    path(r'api/v1/profile/', profile_views.ProfileViewSet.as_view({'get':'me'})),
+    path(r'api/v1/profile/', profile_views.ProfileViewSet.as_view({'get':'me', 'post':'register'})),
     path('api/v1/', include(router.urls)),
 ]

@@ -17,6 +17,18 @@ applyAuthTokenInterceptor(axiosInstance, {
     requestRefresh,
 });
 
+export const register = async (username,password, email) => {
+    const response = await axiosInstance.post('/user/', {
+
+
+                username: username,
+                password: password,
+                email: email
+
+
+    })
+}
+
 export const login = async (username, password) => {
     const response = await axiosInstance.post('/token/', {
         username: username,
