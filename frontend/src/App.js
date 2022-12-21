@@ -13,8 +13,11 @@ import Register from "./components/Register"
 
 import { isLoggedIn } from "axios-jwt";
 import {Route, Routes} from "react-router-dom";
+import AssetGroupsList from "./components/AssetGroupsList";
+import {QueryClient, QueryClientProvider} from 'react-query'
 
 function App() {
+  const queryClient = new QueryClient()
   return (
     <div className="App">
       <div className={"flex flex-column"}
@@ -24,12 +27,11 @@ function App() {
           <Mainmenu />
         </div>
           <div className={"grid m-0"}>
-            <p>Hi</p>
-            <Register/>
+            <QueryClientProvider client={queryClient}>
+              <AssetGroupsList />
+            </QueryClientProvider>
         </div>
-
       </div>
-
     </div>
   );
 }

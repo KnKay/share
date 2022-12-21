@@ -1,7 +1,7 @@
 import {useQuery} from "react-query";
 import { isLoggedIn } from "axios-jwt";
 
-import {axiosInstance} from "../axiosAPI";
+import {axiosInstance} from "./Api";
 import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
 
@@ -18,7 +18,7 @@ function AssetGroupsList(){
             "assetgroup/"
         ).then((res) => res.data)
     );
-
+    console.log(data)
 
     if (isLoading) return "Loading...";
 
@@ -26,18 +26,12 @@ function AssetGroupsList(){
 
     return (
         <div className={"col mr-3"}>
-            <DataTable value={data.results} stripedRows className={"p-1"}>
+            <DataTable value={data} stripedRows className={"p-1"}>
                 <Column field="name" header="Name" className={"p-1"} />
                 <Column field="description" header="Beschreibung" className={"p-1"} />
             </DataTable>
-            {isLoggedIn() ?
-                <div>
-                    <p>Admin actions</p>
-                </div>
-                :
-                <div/>
-            }
         </div>
+
     )
 }
 
