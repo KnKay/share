@@ -14,6 +14,10 @@ class AssetViewSet(viewsets.ModelViewSet):
     serializer_class = AssetSerializer
     permission_classes = (sharePermissions.IsAdminOrOwnerOrReadOnly,)
 
+    @staticmethod
+    def per_group(request):
+        pass
+
 class AssetGroupViewSet(viewsets.ModelViewSet):
     queryset = AssetGroup.objects.all()
     serializer_class = AssetGroupSerializer

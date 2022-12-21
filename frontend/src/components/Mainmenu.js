@@ -7,6 +7,8 @@ class Mainmenu extends Component {
 
     menu_items = [
         {label: 'Profile', icon: PrimeIcons.USER, url: "/profile"},
+        {label: 'Groups', icon: PrimeIcons.USERS, url: "/groups"},
+        {label: 'Assets', icon: PrimeIcons.USERS, url: "/assets"},
         {label: 'Log out', icon: PrimeIcons.SIGN_OUT, command: logout},
         {
             label: 'Admin',

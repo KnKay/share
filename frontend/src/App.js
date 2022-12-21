@@ -10,6 +10,8 @@ import Login  from './components/Login';
 import Test from './components/Test'
 import Mainmenu from "./components/Mainmenu";
 import Register from "./components/Register"
+import Profile from "./components/Profile";
+import AssetList from "./components/AssetList"
 
 import { isLoggedIn } from "axios-jwt";
 import {Route, Routes} from "react-router-dom";
@@ -28,7 +30,12 @@ function App() {
         </div>
           <div className={"grid m-0"}>
             <QueryClientProvider client={queryClient}>
-              <AssetGroupsList />
+              <Routes>
+                  <Route path="/" element={<Test/>}/>
+                  <Route path="/profile" element={<Profile/>}/>
+                  <Route path="/groups" element={<AssetGroupsList/>}/>
+                  <Route path="/assets" element={<AssetList/>}/>
+              </Routes>
             </QueryClientProvider>
         </div>
       </div>

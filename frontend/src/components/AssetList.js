@@ -1,7 +1,7 @@
 import {useQuery} from "react-query";
 import { isLoggedIn } from "axios-jwt";
 
-import {axiosInstance} from "../axiosAPI";
+import {axiosInstance} from "./Api";
 import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
 
@@ -11,7 +11,7 @@ This should become a carousel or something more elegant in future.
 But this is too much design at the moment.
 */
 
-function Asset(){
+function AssetList(){
 
     const {isLoading, error, data, isFetching} = useQuery("itemData", () =>
         axiosInstance.get(
@@ -26,7 +26,7 @@ function Asset(){
 
     return (
         <div className={"col mr-3"}>
-            <DataTable value={data.results} stripedRows className={"p-1"}>
+            <DataTable value={data} stripedRows className={"p-1"}>
                 <Column field="name" header="Name" className={"p-1"} />
                 <Column field="description" header="Beschreibung" className={"p-1"} />
                 {isLoggedIn() ?
@@ -40,4 +40,4 @@ function Asset(){
     )
 }
 
-export default Asset
+export default AssetList
