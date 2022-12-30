@@ -39,10 +39,11 @@ urlpatterns = [
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
     # Can we make this part more elegant using an overwrite? Which method must be overwritten?
-    path(r'api/v1/transaction',views.TransactionViewSet.as_view({'post': 'create', 'get':'list'},)),
     path(r'api/v1/transaction/',views.TransactionViewSet.as_view({'post': 'create', 'get':'list'},)),
     path(r'api/v1/transaction/<int:id>',
         views.TransactionViewSet.as_view({'put': 'update', 'get':'retrieve'},)),
+
+    path(r'api/v1/assetgroup/<int:id>/assets', views.AssetGroupViewSet.as_view({'get':'asset_list'})),
 
     path(r'api/v1/profile/', profile_views.ProfileViewSet.as_view({'get':'me', 'post':'register'})),
     path('api/v1/', include(router.urls)),
