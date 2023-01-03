@@ -32,6 +32,7 @@ class AssetGroupViewSet(viewsets.ModelViewSet):
             response['results'] = []
             for item in assets:
                 response['results'].append(AssetSerializer(item).data)
+        response = response['results']
         return Response(response)
 
 class TransactionViewSet(viewsets.ModelViewSet):
