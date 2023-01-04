@@ -23,12 +23,8 @@ function App() {
   const queryClient = new QueryClient()
   return (
     <div className="App">
-      <div className={"flex flex-column"}
-                 style={{width: "100%", height: "100%", position: "absolute"}}>
-
-        <div className={"grid m-0"}>
-          <Mainmenu />
-        </div>
+       <Mainmenu />
+      <div className={"flex flex-column"} style={{width: "100%", height: "100%", position: "absolute"}}>
           <div className={"grid m-0"}>
             <QueryClientProvider client={queryClient}>
               <Routes>

@@ -1,15 +1,22 @@
 import React, {Component} from "react";
 import {PrimeIcons} from "primereact/api";
-import {Menu} from "primereact/menu";
+import { Menubar } from 'primereact/menubar';
 import {logout} from "./Api";
+import { InputText } from 'primereact/inputtext';
+import { isLoggedIn } from "axios-jwt";
 
-class Mainmenu extends Component {
-
-    menu_items = [
+const Mainmenu = () => {
+    const user_items = [
         {label: 'Profile', icon: PrimeIcons.USER, url: "/profile"},
-        {label: 'Groups', icon: PrimeIcons.USERS, url: "/groups"},
-        {label: 'Assets', icon: PrimeIcons.USERS, url: "/assets"},
         {label: 'Log out', icon: PrimeIcons.SIGN_OUT, command: logout},
+    ]
+    const register =[
+        {label: 'Register', icon: PrimeIcons.USER, url: "/profile"},
+    ]
+
+    var menu_items = [
+        {label: 'Kategorien', icon: PrimeIcons.USERS, url: "/groups"},
+        {label: 'Alles', icon: PrimeIcons.USERS, url: "/assets"},
         {
             label: 'Admin',
             items: [
@@ -17,14 +24,15 @@ class Mainmenu extends Component {
             ]
         },
     ];
-
-    render () {
-        return (
-            <div className={"col-fixed pr-1 mr-3"} style={{width: "200px"}}>
-                <Menu model={this.menu_items} />
-            </div>
-        );
+    {isLoggedIn() ?
+        menu_items = menu_items.concat(user_items)
+        :
+        menu_items = menu_items.concat(register)
     }
+    const end = <InputText placeholder="Search" type="text" />;
+    return (
+            <Menubar model={menu_items} end={end}/>
+    );
 
 }
 
