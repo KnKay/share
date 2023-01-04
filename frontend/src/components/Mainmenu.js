@@ -12,6 +12,7 @@ const Mainmenu = () => {
     ]
     const register =[
         {label: 'Register', icon: PrimeIcons.USER, url: "/profile"},
+        {label: 'Login', icon: PrimeIcons.USER, url: "/login"},
     ]
 
     var menu_items = [

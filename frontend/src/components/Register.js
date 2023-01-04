@@ -32,7 +32,7 @@ class Register extends Component {
             background: "url(login-bg.jpeg) no-repeat scroll center center transparent",
             }} className={"flex-1"}>
             <Card style={{width: "25em"}} className={"mx-auto mt-5 pt-0"}>
-                    <h3 style={{textAlign: "center"}} className={"mt-0"}>Login</h3>
+                    <h3 style={{textAlign: "center"}} className={"mt-0"}>Register</h3>
                     <form onSubmit={this.handleSubmit}>
                         <InputText type={"username"} id="username" placeholder="Username"
                                    style={{width: "100%", textAlign: "left"}} value={this.state.username}
