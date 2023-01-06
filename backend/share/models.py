@@ -30,12 +30,13 @@ class Asset(models.Model):
     Our asset. This is what we can rent.
     '''
     name = models.CharField(max_length=20)
+    description = models.TextField(default="")
     owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, default=1)
     asset_group = models.ForeignKey(AssetGroup, on_delete=models.CASCADE)
     price_rental = models.FloatField(default=0)
     price_usage = models.FloatField(default=0)
     price_time = models.FloatField(default=0)
-    form_data = models.TextField()
+    form_data = models.TextField(default="")
     approved = models.BooleanField(default=False)
     pic = models.BinaryField(blank=True)
 

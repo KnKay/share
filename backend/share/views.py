@@ -14,10 +14,26 @@ class AssetViewSet(viewsets.ModelViewSet):
     serializer_class = AssetSerializer
     permission_classes = (sharePermissions.IsAdminOrOwnerOrReadOnly,)
 
+    @staticmethod
+    def per_group(request):
+        pass
+
 class AssetGroupViewSet(viewsets.ModelViewSet):
     queryset = AssetGroup.objects.all()
     serializer_class = AssetGroupSerializer
     permission_classes = (sharePermissions.IsAdminOrReadOnly, )
+
+    @staticmethod
+    def asset_list(request, id):
+        response = {}
+        assets = Asset.objects.filter(asset_group=id)
+        if assets:
+            response['count'] = len(assets)
+            response['results'] = []
+            for item in assets:
+                response['results'].append(AssetSerializer(item).data)
+        response = response['results']
+        return Response(response)
 
 class TransactionViewSet(viewsets.ModelViewSet):
     queryset =Transaction.objects.all()

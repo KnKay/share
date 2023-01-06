@@ -7,7 +7,7 @@ from .models import Asset, AssetGroup, Transaction
 class AssetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Asset
-        fields = ['id', 'name', 'owner', 'asset_group', 'pic']
+        fields = ['id', 'name', 'owner', 'asset_group', 'pic', 'description']
 
 class AssetGroupSerializer(serializers.ModelSerializer):
     class Meta:

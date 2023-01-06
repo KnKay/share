@@ -8,3 +8,6 @@ Title of Part
 - [Background](background.md)
 - [Architecture](architecture.md)
 - [Data Architecture](data_architecture.md)
+- [Backend](backend.md)
+- [Frontend](frontend.md)
+

@@ -23,15 +23,13 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 
-
 from share import views as views
 from userprofiles import views as profile_views
 
 router = routers.SimpleRouter()
 router.register(r'asset', views.AssetViewSet)
 router.register(r'assetgroup', views.AssetGroupViewSet)
-router.register(r'profile', profile_views.ProfileViewSet)
-# router.register(r'transaction', views.TransactionViewSet)
+router.register(r'user', profile_views.UserViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -41,9 +39,12 @@ urlpatterns = [
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
     # Can we make this part more elegant using an overwrite? Which method must be overwritten?
-    path(r'api/v1/transaction',views.TransactionViewSet.as_view({'post': 'create', 'get':'list'},)),
     path(r'api/v1/transaction/',views.TransactionViewSet.as_view({'post': 'create', 'get':'list'},)),
-    path(r'api/v1/transaction/<int:id>',views.TransactionViewSet.as_view({'put': 'update', 'get':'retrieve'},)),
+    path(r'api/v1/transaction/<int:id>',
+        views.TransactionViewSet.as_view({'put': 'update', 'get':'retrieve'},)),
 
+    path(r'api/v1/assetgroup/<int:id>/assets', views.AssetGroupViewSet.as_view({'get':'asset_list'})),
+
+    path(r'api/v1/profile/', profile_views.ProfileViewSet.as_view({'get':'me', 'post':'register'})),
     path('api/v1/', include(router.urls)),
 ]
