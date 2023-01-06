@@ -17,6 +17,8 @@ import {QueryClient, QueryClientProvider} from 'react-query'
 import MyProfile from "./components/MyProfile";
 import Login from "./components/Login"
 import Asset from "./components/Asset";
+import AssetEditor from "./components/AssetEdit";
+import AssetCreate from "./components/AssetCreate";
 
 function App() {
   const queryClient = new QueryClient()
@@ -31,8 +33,10 @@ function App() {
                   <Route path="/profile" element={<MyProfile/>}/>
                   <Route path="/groups" element={<AssetGroupsList/>}/>
                   <Route path="/groups/:id" element={<AssetGroup/>}/>
+                  <Route path="/groups/:id/add" element={<AssetCreate/>}/>
                   <Route path="/assets" element={<AssetList/>}/>
                   <Route path="/assets/:id" element={<Asset/>}/>
+                  <Route path="/assets/:id/edit" element={<AssetEditor/>}/>
                   <Route path="/login" element={<Login/>}/>
               </Routes>
             </QueryClientProvider>
