@@ -18,10 +18,13 @@ function GroupAssets() {
     if (isLoading) return "Loading...";
 
     if (error) return "An error has occurred: " + error.message;
-
+    const actionBodyTemplate = (rowData) => {
+        console.debug(rowData.data)
+        window.location.href = "/assets/"+rowData.data.id
+    }
     return (
         <div className={"flex-1"}>
-            <DataTable value={data} stripedRows className={"p-1"}>
+            <DataTable value={data} stripedRows className={"p-1"} onRowClick={actionBodyTemplate}>
                 <Column field="name" header="Name" className={"p-1"} />
                 <Column field="description" header="Beschreibung" className={"p-1"} />
             </DataTable>
