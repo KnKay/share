@@ -6,6 +6,7 @@ import {Button} from 'primereact/button';
 
 import { login } from "./Api";
 
+//ToDo: Make this a hook
 class Login extends Component {
 
 
@@ -20,7 +21,7 @@ class Login extends Component {
       console.log("hi")
         event.preventDefault();
         await login(this.state.username, this.state.password)
-        window.location.reload()
+        window.location.href = "/"
     }
     render() {
         return(

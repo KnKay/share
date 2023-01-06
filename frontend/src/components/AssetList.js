@@ -27,13 +27,15 @@ function AssetList(){
     return (
         <div className={"col mr-3"}>
             <DataTable value={data} stripedRows className={"p-1"}>
+
                 <Column field="name" header="Name" className={"p-1"} />
                 <Column field="description" header="Beschreibung" className={"p-1"} />
                 {isLoggedIn() ?
-                <Column field="description" header="Beschreibung" className={"p-1"} />
-                :
-                <div/>
-            }
+                    <Column field="description" header="Beschreibung" className={"p-1"} />
+                    :
+                    <div/>
+                }
+
             </DataTable>
 
         </div>
