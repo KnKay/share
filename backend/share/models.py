@@ -32,7 +32,7 @@ class Asset(models.Model):
     name = models.CharField(max_length=20)
     description = models.TextField(default="")
     owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, default=1)
-    asset_group = models.ForeignKey(AssetGroup, on_delete=models.CASCADE)
+    asset_group = models.ForeignKey(AssetGroup, on_delete=models.CASCADE, related_name="assets")
     price_rental = models.FloatField(default=0)
     price_usage = models.FloatField(default=0)
     price_time = models.FloatField(default=0)
@@ -65,13 +65,15 @@ class Transaction(models.Model):
     '''
     We want to make an appointment
     '''
-    asset = models.ForeignKey(Asset, on_delete=models.CASCADE)
+    asset = models.ForeignKey(Asset, on_delete=models.CASCADE, related_name="transactions")
     date_from = models.DateTimeField()
     date_to = models.DateTimeField()
     billed = models.BooleanField(default=False)
     paid = models.BooleanField(default=False)
+    accepted = models.BooleanField(default=False)
     beschwerde = models.TextField(blank=True, null=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, default=1)
+    requester = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, default=1, related_name="requester")
+
 
     def __str__(self) -> str:
         return f'{self.asset}, from {self.date_from}'
@@ -90,6 +92,6 @@ def create_transaction_user(sender, instance, **kwargs):
         try:
             user_id = request.user.id
             user = User.objects.get(id=user_id)
-            instance.owner=user
+            instance.requester=user
         except Exception as ex:
             raise ex
