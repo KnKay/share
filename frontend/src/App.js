@@ -19,6 +19,9 @@ import Login from "./components/Login"
 import Asset from "./components/Asset";
 import AssetEditor from "./components/AssetEdit";
 import AssetCreate from "./components/AssetCreate";
+import AssetRequest from "./components/AssetRequest";
+import Transactions from "./components/Transactions";
+import Transaction from "./components/Transaction";
 
 function App() {
   const queryClient = new QueryClient()
@@ -37,6 +40,9 @@ function App() {
                   <Route path="/assets" element={<AssetList/>}/>
                   <Route path="/assets/:id" element={<Asset/>}/>
                   <Route path="/assets/:id/edit" element={<AssetEditor/>}/>
+                  <Route path="/assets/:id/request" element={<AssetRequest/>}/>
+                  <Route path="/transactions" element={<Transactions/>}/>
+                  <Route path="/transactions/:id" element={<Transaction/>}/>
                   <Route path="/login" element={<Login/>}/>
               </Routes>
             </QueryClientProvider>

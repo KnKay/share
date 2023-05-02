@@ -10,12 +10,18 @@ function Profile() {
             "profile/"
         ).then((res) => res.data)
     );
+    const { isLoading: userLoading, error :userError, data: user} = useQuery("profileData", () =>
+    axiosInstance.get(
+        "profile/"
+    ).then((res) => res.data)
+    );
 
     if (isLoading) return "Loading...";
 
     if (error) return "An error has occurred: " + error.message;
 
     console.debug(data)
+    console.debug(user)
 
     return (
         <div className={"flex-1"}>
