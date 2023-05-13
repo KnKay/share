@@ -22,3 +22,9 @@ def create_user_profile(sender, instance, created, **kwargs):
 # @receiver(post_save, sender=User)
 # def save_user_profile(sender, instance, **kwargs):
 #     instance.profile.save()
+
+class Registration(models.Model):
+    email = models.EmailField()
+    username = models.CharField(max_length=20)
+    random = models.CharField(max_length=50)
+    

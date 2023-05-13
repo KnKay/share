@@ -30,6 +30,7 @@ router = routers.SimpleRouter()
 router.register(r'asset', views.AssetViewSet)
 router.register(r'assetgroup', views.AssetGroupViewSet)
 router.register(r'user', profile_views.UserViewSet)
+router.register(r'register', profile_views.RegistrationiewSet)
 
 router.register(r'transaction', views.TransactionViewSet)
 
