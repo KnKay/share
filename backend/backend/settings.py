@@ -135,3 +135,10 @@ REST_FRAMEWORK = {
     #     'rest_framework.pagination.PageNumberPagination',
     # 'PAGE_SIZE': 50
 }
+
+
+SIMPLE_JWT = {
+  # It will work instead of the default serializer(TokenObtainPairSerializer).
+  "TOKEN_OBTAIN_SERIALIZER": "userprofiles.serializers.MyTokenObtainPairSerializer",
+  # ...
+}

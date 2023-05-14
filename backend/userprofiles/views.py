@@ -65,4 +65,6 @@ class RegistrationiewSet(viewsets.ModelViewSet):
 
 
     def create(self, request, *args, **kwargs):
+        #Base class method call
+        #Send email
         return Response(status=200)
