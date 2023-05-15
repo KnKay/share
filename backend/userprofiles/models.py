@@ -24,7 +24,6 @@ def create_user_profile(sender, instance, created, **kwargs):
 #     instance.profile.save()
 
 class Registration(models.Model):
-    email = models.EmailField()
-    username = models.CharField(max_length=20)
-    random = models.CharField(max_length=50)
-    
+    email = models.EmailField(unique=True)
+    username = models.CharField(max_length=20, unique=True)
+    random = models.CharField(max_length=50, unique=True)

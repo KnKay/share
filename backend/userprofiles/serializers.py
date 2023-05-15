@@ -38,7 +38,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 class RegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Registration
-        fields = '__all__'
+        fields = ['email', 'username', 'random']
 
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer

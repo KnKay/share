@@ -14,7 +14,8 @@
                 "runserver"
             ],
             "django": true,
-            "justMyCode": false
+            "justMyCode": false,
+            "envFile": "${workspaceFolder}/.env"
         },
         {
             "command": "npm start",
