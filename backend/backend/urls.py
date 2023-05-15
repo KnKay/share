@@ -31,7 +31,7 @@ router.register(r'asset', views.AssetViewSet)
 router.register(r'assetgroup', views.AssetGroupViewSet)
 router.register(r'user', profile_views.UserViewSet)
 router.register(r'register', profile_views.RegistrationiewSet)
-
+router.register(r'profile', profile_views.ProfileViewSet)
 router.register(r'transaction', views.TransactionViewSet)
 
 urlpatterns = [
@@ -49,6 +49,6 @@ urlpatterns = [
 
     path(r'api/v1/assetgroup/<int:id>/assets', views.AssetGroupViewSet.as_view({'get':'asset_list'})),
 
-    path(r'api/v1/profile/', profile_views.ProfileViewSet.as_view({'get':'me', 'post':'register'})),
+    # path(r'api/v1/profile/', profile_views.ProfileViewSet.as_view()),
     path('api/v1/', include(router.urls)),
 ]

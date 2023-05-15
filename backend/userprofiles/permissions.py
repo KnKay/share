@@ -4,7 +4,7 @@ from rest_framework.permissions import SAFE_METHODS
 class RegisterPerms(IsAdminOrOwner):
     def has_permission(self, request, view):
         is_admin = super().has_permission(request, view)
-        return request.method in SAFE_METHODS or is_admin
+        return request.method in ('GET', 'HEAD', 'OPTIONS', 'POST') or is_admin
 
     '''
     A method to give admins or owners write access.

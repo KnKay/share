@@ -14,7 +14,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     user =  UserSerializer(read_only=True)
     class Meta:
         model = Profile
-        fields = ['user', 'post_code']
+        fields = ['user']
 
 class RegUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,7 +25,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     user =  RegUserSerializer(many=False)
     class Meta:
         model = Profile
-        fields = ['user', 'post_code']
+        fields = ['user']
 
     def create(self, validated_data):
         user_json = validated_data.pop('user')

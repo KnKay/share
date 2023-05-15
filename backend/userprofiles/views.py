@@ -23,8 +23,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
     permission_classes = (RegisterPerms ,)
 
-    @staticmethod
-    def me(request):
+    def retrieve(self, request, *args, **kwargs):
         id = request.user.id
         if id is None:
             raise exceptions.PermissionDenied()
@@ -32,8 +31,12 @@ class ProfileViewSet(viewsets.ModelViewSet):
         response = Profile.objects.get(user_id=id)
         return Response(ProfileSerializer(response).data)
 
-    @staticmethod
-    def register(request):
+    def create(self, request, *args, **kwargs):
+        try:
+            Registration.objects.get(random=request.data["random"])
+        except ObjectDoesNotExist:
+            return Response(status=HTTPStatus.BAD_REQUEST, data="Register unknown")
+
         profile = RegisterSerializer(data=request.data)
         try:
             profile.is_valid(raise_exception=True)
