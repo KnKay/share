@@ -20,10 +20,8 @@ I would like to get more devs and persons on board. Just give me a message!
 
 ## Next steps
 
-- [ ] Web Frontend
-- [ ] Testing
-- [ ] Robot testing
-- [ ] Deploy
+- [ ] Default data using migrations (add groups!) [LINK](https://docs.djangoproject.com/en/3.0/topics/migrations/#data-migrations)
+- [ ] Use Groups
 
 ## Roadmap
 

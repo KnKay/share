@@ -15,3 +15,6 @@ db.sqlite3
 .devcontainer
 build
 share.egg-info
+
+# Privates
+.env

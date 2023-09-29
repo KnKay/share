@@ -30,13 +30,15 @@ router = routers.SimpleRouter()
 router.register(r'asset', views.AssetViewSet)
 router.register(r'assetgroup', views.AssetGroupViewSet)
 router.register(r'user', profile_views.UserViewSet)
-
+router.register(r'register', profile_views.RegistrationiewSet)
+router.register(r'profile', profile_views.ProfileViewSet)
 router.register(r'transaction', views.TransactionViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
 
     path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    # path('api/v1/postman/', profile_views. .as_view(), name='token_obtain_pair'),
     path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
@@ -47,6 +49,6 @@ urlpatterns = [
 
     path(r'api/v1/assetgroup/<int:id>/assets', views.AssetGroupViewSet.as_view({'get':'asset_list'})),
 
-    path(r'api/v1/profile/', profile_views.ProfileViewSet.as_view({'get':'me', 'post':'register'})),
+    # path(r'api/v1/profile/', profile_views.ProfileViewSet.as_view()),
     path('api/v1/', include(router.urls)),
 ]
