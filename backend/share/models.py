@@ -4,26 +4,44 @@ This will be the most important part.
 '''
 from django.db import models
 
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import  User
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from django.utils.translation import gettext_lazy as _
 
 class AssetGroup(models.Model):
     '''
     Model for asset_group.
     '''
     name = models.CharField(max_length=20)
-    admin_group = models.ForeignKey(Group, on_delete=models.CASCADE, blank=True, null=True)
     open = models.BooleanField(default=True)
     price_rental = models.FloatField(default=0)
     price_usage = models.FloatField(default=0)
-    price_time = models.FloatField(default=0)
     description = models.TextField(default="Description Text")
     form_template = models.TextField()
     pic = models.BinaryField(blank=True)
 
     def __str__(self):
         return f'{self.name}'
+
+class UserRole(models.Model):
+    '''
+    A user can have a role in an asset group.
+    This will implement an RBAC. The Django user Group model seem not to fit
+    so this should be an easy implementation
+    '''
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, default=1)
+    group = models.ForeignKey(AssetGroup, on_delete=models.CASCADE, blank=True, null=True, default=1)
+
+    class Role(models.TextChoices):
+        MEMBER = "M", _("Member")
+        ADMIN = "A", _("Admin")
+
+    role = models.CharField(
+        max_length=1,
+        choices=Role.choices,
+        default=Role.MEMBER
+    )
 
 class Asset(models.Model):
     '''
