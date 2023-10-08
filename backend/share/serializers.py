@@ -19,7 +19,7 @@ class AssetSerializer(serializers.ModelSerializer):
 class AssetGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = AssetGroup
-        fields = ['id', 'name', 'open', 'admin_group', 'description', 'pic']
+        fields = ['id', 'name', 'open',  'description', 'pic']
 
 
 class TransactionOwner(serializers.ModelSerializer):
