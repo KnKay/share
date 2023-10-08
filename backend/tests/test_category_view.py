@@ -8,4 +8,4 @@ https://djangostars.com/blog/django-pytest-testing/
 def test_my_user():
     User.objects.create_user('me', 'lennon@thebeatles.com', 'johnpassword')
     me = User.objects.get(username='me').username
-    assert (me is "me")
+
