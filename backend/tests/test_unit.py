@@ -11,6 +11,7 @@ class CategoryViewTestCase(TestCase):
 
     def setUp(self):
         AssetGroup.objects.create(name="lion")
+        AssetGroup.objects.create(name="tiger")
         User.objects.create(username="admin", is_superuser=True, is_staff=True)
         User.objects.create(username="user", is_superuser=False)
 
