@@ -29,12 +29,16 @@ test::code:
         path: backend/coverage.xml
 
 
-test::robot:
-  stage: test
-  extends:
-    - .backend
-  script:
-    - echo "To do"
+# test::robot:
+#   stage: test
+#   extends:
+#     - .backend
+#   script:
+#     - echo "To do"
+#   only:
+#     - tags
+#     - merge_requests
+#     - main
 
 build::docs:
   stage: build
@@ -46,13 +50,15 @@ build::docs:
   artifacts:
     paths:
       - book
+  only:
+    - main
 
-build::code:
-  stage: build
-  extends:
-    - .backend
-  script:
-    - echo "Nothing to do here"
+# build::code:
+#   stage: build
+#   extends:
+#     - .backend
+#   script:
+#     - echo "Nothing to do here"
 
 pages:
   stage: publish
@@ -75,4 +81,6 @@ pages:
     paths:
     - public
     expire_in: 1 day
+  only:
+    - main
 
