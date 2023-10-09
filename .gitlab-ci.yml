@@ -16,7 +16,7 @@ test::code:
   extends:
     - .backend
   script:
-    - pytest --cov-report xml --cov=. tests/
+    - pytest --cov-report xml --cov=. --junitxml=report.xml tests/
     - coverage xml
   only:
     - tags
@@ -27,6 +27,7 @@ test::code:
       coverage_report:
         coverage_format: cobertura
         path: backend/coverage.xml
+      junit: backend/report.xml
 
 
 # test::robot:
