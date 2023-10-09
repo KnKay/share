@@ -16,8 +16,12 @@ test::code:
   extends:
     - .backend
   script:
-    - coverage run --source='.' manage.py test
+    - pytest --cov-report xml --cov=. tests/
     - coverage xml
+  only:
+    - tags
+    - merge_requests
+    - main
   artifacts:
     reports:
       coverage_report:
