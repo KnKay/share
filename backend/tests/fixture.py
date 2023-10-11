@@ -10,3 +10,7 @@ def drf_client():
 @pytest.fixture
 def admin_user():
    return  User.objects.create(username="admin", is_superuser=True, is_staff=True)
+
+@pytest.fixture
+def std_user():
+   return  User.objects.create(username="user")
