@@ -23,6 +23,10 @@ class AssetViewSet(viewsets.ModelViewSet):
     serializer_class = AssetSerializer
     permission_classes = (sharePermissions.IsAdminOrOwnerOrReadOnly,)
 
+    def create(self, request):
+        request.data["owner"]=request.user.id
+        return  super().create(request)
+
 class AssetGroupViewSet(viewsets.ModelViewSet):
     queryset = AssetGroup.objects.all()
     queryset = AssetGroup.objects.prefetch_related(Prefetch(
