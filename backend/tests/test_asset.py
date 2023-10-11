@@ -58,7 +58,7 @@ def test_asset_put_admin(drf_client,std_user, admin_user):
     assert response.status_code == status.HTTP_200_OK
 
 @pytest.mark.django_db
-def test_asset_view_owner(drf_client, std_user):
+def test_asset_put_owner(drf_client, std_user):
     client = drf_client
     user = std_user
     one = AssetGroup.objects.create(name="grp1")
@@ -68,3 +68,37 @@ def test_asset_view_owner(drf_client, std_user):
     force_authenticate(request, user=user)
     response = view(request, pk=asset.id)
     assert response.status_code == status.HTTP_200_OK
+
+@pytest.mark.django_db
+def test_asset_delete_anon(drf_client, std_user):
+    client = drf_client
+    one = AssetGroup.objects.create(name="grp1")
+    asset = Asset.objects.create(name="test_asset", asset_group=one, owner=std_user)
+    view = AssetViewSet.as_view({'delete':'destroy'})
+    request = client.delete(f"/api/v1/asset/{asset.id}/")
+    response = view(request, pk=asset.id)
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+@pytest.mark.django_db
+def test_asset_delete_owner(drf_client, std_user):
+    client = drf_client
+    user = std_user
+    one = AssetGroup.objects.create(name="grp1")
+    asset = Asset.objects.create(name="test_asset", asset_group=one, owner=std_user)
+    view = AssetViewSet.as_view({'delete':'destroy'})
+    request = client.delete(f"/api/v1/asset/{asset.id}/")
+    force_authenticate(request, user=user)
+    response = view(request, pk=asset.id)
+    assert response.status_code == status.HTTP_204_NO_CONTENT
+
+@pytest.mark.django_db
+def test_asset_delete_admin(drf_client, std_user, admin_user):
+    client = drf_client
+    user = std_user
+    one = AssetGroup.objects.create(name="grp1")
+    asset = Asset.objects.create(name="test_asset", asset_group=one, owner=std_user)
+    view = AssetViewSet.as_view({'delete':'destroy'})
+    request = client.delete(f"/api/v1/asset/{asset.id}/")
+    force_authenticate(request, user=admin_user)
+    response = view(request, pk=asset.id)
+    assert response.status_code == status.HTTP_204_NO_CONTENT
