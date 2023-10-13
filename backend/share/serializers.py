@@ -39,7 +39,7 @@ class TransactionRequester(serializers.ModelSerializer):
         fields = ["username"]
 
 class TransactionSerializer(serializers.ModelSerializer):
-    asset = TransactionAssetSerializer(read_only=True)
+    # asset = TransactionAssetSerializer(read_only=True)
     requester = TransactionRequester(read_only=True)
     class Meta:
         model = Transaction
