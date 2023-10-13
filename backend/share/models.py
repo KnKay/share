@@ -78,21 +78,3 @@ class Transaction(models.Model):
     def __str__(self) -> str:
         return f'{self.asset}, from {self.date_from}'
 
-# ToDo: This must be like the asset. Left as todo as this is not yet relevant!
-@receiver(pre_save, sender=Transaction)
-def create_transaction_user(sender, instance, **kwargs):
-    '''
-    This method will force the owner. This can be improved but is working for now.
-    '''
-    if instance.id is None:
-        import inspect
-        for frame_record in inspect.stack():
-            if frame_record[3]=='get_response':
-                request = frame_record[0].f_locals['request']
-                break
-        try:
-            user_id = request.user.id
-            user = User.objects.get(id=user_id)
-            instance.requester=user
-        except Exception as ex:
-            raise ex

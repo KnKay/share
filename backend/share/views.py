@@ -63,3 +63,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
         for request in requests:
             reply.append(TransactionSerializer(request).data)
         return Response(reply)
+
+    def create(self, request):
+        request.data["requester"]=request.user.id
+        return  super().create(request)
