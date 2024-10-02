@@ -1,6 +1,6 @@
 package net.versteht
 
-import com.example.plugins.*
+import net.versteht.plugins.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
