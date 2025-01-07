@@ -1,6 +1,4 @@
-@file:Suppress("UnstableApiUsage")
-
-rootProject.name = "App"
+rootProject.name = "share"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
