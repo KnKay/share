@@ -18,4 +18,10 @@ fun Application.module() {
             call.respondText("Ktor: ${Greeting().greet()}")
         }
     }
+//    configureFrameworks()
+//    configureSerialization()
+//    configureDatabases()
+//    configureHTTP()
+//    configureSecurity()
+//    configureRouting()
 }
