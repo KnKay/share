@@ -23,6 +23,7 @@ dependencies {
     implementation(libs.ktor.server.content.negotiation)
     implementation(libs.exposed.core)
     implementation(libs.exposed.jdbc)
+    implementation(libs.exposed.dao)
     implementation(libs.h2)
     implementation(libs.ktor.server.swagger)
     implementation(libs.ktor.server.openapi)
