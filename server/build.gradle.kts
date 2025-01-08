@@ -25,6 +25,8 @@ dependencies {
     implementation(libs.exposed.jdbc)
     implementation(libs.h2)
     implementation(libs.ktor.server.swagger)
+    implementation(libs.ktor.server.openapi)
+    implementation(libs.ktor.server.swaggergen)
     implementation(libs.ktor.server.auth)
     implementation(libs.ktor.server.auth.jwt)
 
