@@ -6,6 +6,7 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlin.plugin.serialization)
 }
 
 kotlin {
@@ -19,7 +20,7 @@ kotlin {
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-    
+
     jvm()
     
     @OptIn(ExperimentalWasmDsl::class)
@@ -43,6 +44,7 @@ kotlin {
         commonMain.dependencies {
             // put your Multiplatform dependencies here
             implementation(libs.kotlinx.datetime)
+            implementation(libs.kotlinx.serialization)
         }
     }
 }

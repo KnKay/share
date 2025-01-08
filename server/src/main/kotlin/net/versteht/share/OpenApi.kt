@@ -5,7 +5,6 @@ import io.github.smiley4.ktorswaggerui.routing.openApiSpec
 import io.github.smiley4.ktorswaggerui.routing.swaggerUI
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
-import net.versteht.share.routing.greeting
 
 fun Application.openApi() {
     install(SwaggerUI) {

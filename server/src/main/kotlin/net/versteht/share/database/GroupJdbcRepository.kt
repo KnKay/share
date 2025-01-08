@@ -1,15 +1,20 @@
 package net.versteht.share.database
 
 
+
+import io.ktor.server.routing.*
 import net.versteht.share.objects.Group
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
-import io.ktor.server.routing.*
+import org.jetbrains.exposed.sql.addLogger
+import org.jetbrains.exposed.sql.StdOutSqlLogger
+
 class  GroupJdbcRepository(database: Database) : CrudRepositoryInterface<Group> {
 
     init {
         transaction(database) {
+            addLogger(StdOutSqlLogger)
             SchemaUtils.create(GroupTable)
         }
     }
@@ -33,6 +38,5 @@ class  GroupJdbcRepository(database: Database) : CrudRepositoryInterface<Group> 
     override suspend fun update(t: Group): Group {
         TODO("Not yet implemented")
     }
-
 
 }
