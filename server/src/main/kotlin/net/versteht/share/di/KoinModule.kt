@@ -12,4 +12,5 @@ import org.jetbrains.exposed.sql.Database
 internal fun Application.getKoinModule(database: Database) = module {
     single {GroupJdbcRepository(database)}
     single {CategoryJdbcRepository(database)}
+    single {UserJdbcRepository(database)}
 }

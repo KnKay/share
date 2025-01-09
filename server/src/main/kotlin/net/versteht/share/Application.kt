@@ -47,11 +47,13 @@ internal fun Application.module() {
     // This is still a little bit weird... But must be outside routing...
     val groupRepo by   inject<GroupJdbcRepository>()
     val categoryRepo by   inject<CategoryJdbcRepository>()
+    val userRepo by   inject<UserJdbcRepository>()
     // Install was somehow not working...
 
     routing {
         groups("groups", groupRepo)
         categories("categories", categoryRepo)
+        users("users", userRepo)
         route{
             get("test"){
                 val ret = test("me")

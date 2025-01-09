@@ -6,7 +6,7 @@ import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 
-object GroupTable: IntIdTable("group"){
+object GroupTable: IntIdTable(){
     val name = varchar("name", 50)
 }
 

@@ -6,7 +6,7 @@ import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 
-object CategoryTable: IntIdTable("category"){
+object CategoryTable: IntIdTable(){
     val name = varchar("name", 50)
     val open = bool("open")
 }
