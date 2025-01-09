@@ -24,11 +24,17 @@ class  GroupJdbcRepository(database: Database) : CrudRepositoryInterface<Group> 
     }
 
     override suspend fun read(id: Int): Group?  = suspendTransaction {
-        GroupDAO.all().firstOrNull()?.toGroup()
+        GroupDAO
+            .find { (GroupTable.id eq id )}
+            .limit(1)
+            .map(::DAOtoGroup)
+            .firstOrNull()
     }
 
     override suspend fun list(): List<Group> = suspendTransaction {
-        GroupDAO.all().map{it.toGroup()}
+        GroupDAO
+                .all()
+                .map(::DAOtoGroup)
     }
 
     override suspend fun delete(t: Group): Group {

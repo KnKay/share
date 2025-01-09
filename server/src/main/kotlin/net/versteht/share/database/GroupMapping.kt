@@ -13,6 +13,6 @@ object GroupTable: IntIdTable("group"){
 class GroupDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<GroupDAO>(GroupTable)
     var name by GroupTable.name
-    fun toGroup()= Group(name)
 }
 
+fun DAOtoGroup(dao: GroupDAO): Group = Group(dao.name)

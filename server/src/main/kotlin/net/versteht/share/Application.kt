@@ -12,7 +12,6 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import net.versteht.share.database.CrudRepositoryInterface
-import net.versteht.share.database.createFakeData
 import net.versteht.share.di.database
 import net.versteht.share.di.getKoinModule
 import net.versteht.share.objects.Group
@@ -58,7 +57,6 @@ internal fun Application.module() {
 
     if (developmentMode) {
         openApi()
-        createFakeData(db)
     }
 
 
