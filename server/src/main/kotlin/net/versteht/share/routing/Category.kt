@@ -4,11 +4,11 @@ import io.ktor.http.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import net.versteht.share.database.CrudRepositoryInterface
-import net.versteht.share.objects.Group
+import net.versteht.share.objects.Category
 import org.koin.ktor.ext.inject
 
 
-internal fun Routing.groups(path: String, repo: CrudRepositoryInterface<Group> ){
+internal fun Routing.categories(path: String, repo: CrudRepositoryInterface<Category> ){
         route(path){
             get("/{id}") {
                 val id = call.parameters["id"]!!.toInt()

@@ -11,10 +11,10 @@ import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import net.versteht.share.database.CrudRepositoryInterface
+
 import net.versteht.share.di.database
 import net.versteht.share.di.getKoinModule
-import net.versteht.share.objects.Group
+
 import net.versteht.share.routing.*
 import org.koin.ktor.ext.inject
 import io.ktor.serialization.kotlinx.json.*
@@ -22,6 +22,9 @@ import org.koin.ktor.plugin.Koin
 
 import org.koin.logger.slf4jLogger
 import kotlinx.serialization.Serializable
+import net.versteht.share.database.*
+
+
 @Serializable
 data class test(val name: String)
 
@@ -42,11 +45,13 @@ internal fun Application.module() {
         json()
     }
     // This is still a little bit weird... But must be outside routing...
-    val groupRepo by   inject<CrudRepositoryInterface<Group>>()
+    val groupRepo by   inject<GroupJdbcRepository>()
+    val categoryRepo by   inject<CategoryJdbcRepository>()
     // Install was somehow not working...
 
     routing {
         groups("groups", groupRepo)
+        categories("categories", categoryRepo)
         route{
             get("test"){
                 val ret = test("me")
