@@ -1,5 +1,6 @@
 package net.versteht.share.database
 
+import kotlinx.datetime.toKotlinLocalDateTime
 import net.versteht.share.objects.Group
 import net.versteht.share.objects.Appointment
 import org.jetbrains.exposed.dao.IntEntity
@@ -25,6 +26,6 @@ class AppointmentDAO(id: EntityID<Int>) : IntEntity(id) {
 
 fun DAOtoAppointment(dao: AppointmentDAO): Appointment = Appointment(
         DAOtoItem(dao.item),
-    null,
-    null
+    dao.startDate.toKotlinLocalDateTime(),
+    dao.endDate.toKotlinLocalDateTime()
     )

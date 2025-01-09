@@ -7,5 +7,5 @@ data class Item(
     val category: Category,
     val owner: User,
     val delegatedGroup: Group?,
-    val notes: List<Note>?,
+    val notes: List<String>?,
 )

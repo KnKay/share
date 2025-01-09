@@ -21,7 +21,6 @@ class ItemDAO(id: EntityID<Int>) : IntEntity(id) {
     var category by CategoryDAO referencedOn ItemTable.category
     var owner by UserDAO referencedOn ItemTable.owner
     var delegatedGroup by GroupDAO optionalReferencedOn ItemTable.delegatedGroup
-
 }
 
 fun DAOtoItem(dao: ItemDAO): Item{
@@ -30,11 +29,14 @@ fun DAOtoItem(dao: ItemDAO): Item{
         val test = dao.delegatedGroup
         delegation = DAOtoGroup(test!!)
     }
+    val notes = NoteDAO
+        .find { NoteTable.item eq dao.id }
+        .map(::DAONoteToString)
     return Item(
         dao.name,
         DAOtoCategory(dao.category),
         DAOtoUser(dao.owner),
         delegation,
-        null
+        notes
     )
 }

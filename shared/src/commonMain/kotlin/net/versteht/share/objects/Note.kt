@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Note(
     val note: String,
-    val item: Item,
+    val item: Item?,
 )

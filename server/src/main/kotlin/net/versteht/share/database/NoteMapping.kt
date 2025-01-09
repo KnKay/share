@@ -9,14 +9,14 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 
 object NoteTable: IntIdTable(){
     val note = varchar("note", 150)
-    val item = reference("item", ItemTable)
+    val item = reference("item", ItemTable).nullable()
 }
 
 class NoteDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<NoteDAO>(NoteTable)
     var note by NoteTable.note
-    var item by ItemDAO referencedOn  NoteTable.item
+    var item by ItemDAO optionalReferencedOn  NoteTable.item
 }
 
-fun DAOtoNote(dao: NoteDAO): Note = Note(dao.note, DAOtoItem(dao.item))
-
+fun DAOtoNote(dao: NoteDAO): Note = Note(dao.note, DAOtoItem(dao.item!!))
+fun DAONoteToString(dao: NoteDAO): String = dao.note
