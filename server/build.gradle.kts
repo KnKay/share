@@ -17,7 +17,7 @@ dependencies {
     implementation(libs.logback)
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.netty)
-
+    implementation(libs.kotlinx.datetime)
     implementation(libs.koin.ktor)
     implementation(libs.koin.logger.slf4j)
     implementation(libs.ktor.serialization.kotlinx.json)
@@ -25,6 +25,7 @@ dependencies {
     implementation(libs.exposed.core)
     implementation(libs.exposed.jdbc)
     implementation(libs.exposed.dao)
+    implementation(libs.exposed.datetime)
     implementation(libs.sqlite.jdbc)
     implementation(libs.h2)
     implementation(libs.ktor.server.swagger)

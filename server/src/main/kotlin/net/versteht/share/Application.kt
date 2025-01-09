@@ -48,12 +48,18 @@ internal fun Application.module() {
     val groupRepo by   inject<GroupJdbcRepository>()
     val categoryRepo by   inject<CategoryJdbcRepository>()
     val userRepo by   inject<UserJdbcRepository>()
+    val itemRepo by inject<ItemJdbcRepository>()
+    val appointmentRepo by inject<AppointmentJdbcRepository>()
+    val noteRepo by inject<NoteJdbcRepository>()
     // Install was somehow not working...
 
     routing {
         groups("groups", groupRepo)
         categories("categories", categoryRepo)
         users("users", userRepo)
+        items("items", itemRepo)
+        appointments("appointments", appointmentRepo)
+        notes("notes", noteRepo)
         route{
             get("test"){
                 val ret = test("me")

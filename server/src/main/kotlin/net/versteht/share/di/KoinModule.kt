@@ -13,4 +13,7 @@ internal fun Application.getKoinModule(database: Database) = module {
     single {GroupJdbcRepository(database)}
     single {CategoryJdbcRepository(database)}
     single {UserJdbcRepository(database)}
+    single {ItemJdbcRepository(database)}
+    single {AppointmentJdbcRepository(database)}
+    single {NoteJdbcRepository(database)}
 }
