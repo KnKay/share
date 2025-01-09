@@ -9,5 +9,5 @@ data class Appointment(
     val item: Item,
     val startDate: LocalDateTime?,
     val endDate: LocalDateTime?,
-
+    val confirmed: Boolean,
 )
