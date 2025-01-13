@@ -1,5 +1,7 @@
 package net.versteht.share
 
+import com.auth0.jwt.JWT
+import com.auth0.jwt.algorithms.Algorithm
 import io.github.smiley4.ktorswaggerui.SwaggerUI
 import io.github.smiley4.ktorswaggerui.dsl.routing.route
 import io.github.smiley4.ktorswaggerui.routing.swaggerUI
@@ -18,6 +20,7 @@ import net.versteht.share.di.getKoinModule
 import net.versteht.share.routing.*
 import org.koin.ktor.ext.inject
 import io.ktor.serialization.kotlinx.json.*
+import io.ktor.server.auth.Authentication
 import io.ktor.server.request.receive
 import org.koin.ktor.plugin.Koin
 
@@ -27,6 +30,8 @@ import net.versteht.share.authentication.DatabaseAuthentication
 import net.versteht.share.database.*
 import net.versteht.share.objects.User
 
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 
 @Serializable
 data class test(val name: String)
@@ -46,6 +51,32 @@ internal fun Application.module() {
     install(ContentNegotiation) {
         json()
     }
+    val secret = environment.config.property("authorization.jwt.secret").getString()
+    val issuer = environment.config.property("authorization.jwt.issuer").getString()
+    val audience = environment.config.property("authorization.jwt.audience").getString()
+    val myRealm = environment.config.property("authorization.jwt.realm").getString()
+    install(Authentication){
+        jwt("auth-jwt") {
+            realm = myRealm
+            verifier(JWT
+                .require(Algorithm.HMAC256(secret))
+                .withAudience(audience)
+                .withIssuer(issuer)
+                .build()
+            )
+            validate { credential ->
+                if (credential.payload.getClaim("username").asString() != "") {
+                    JWTPrincipal(credential.payload)
+                } else {
+                    null
+                }
+            }
+            challenge { defaultScheme, realm ->
+                call.respond(HttpStatusCode.Unauthorized, "Token is not valid or has expired")
+            }
+        }
+    }
+
     // This is still a little bit weird... But must be outside routing...
     val groupRepo by   inject<GroupJdbcRepository>()
     val categoryRepo by   inject<CategoryJdbcRepository>()
@@ -56,6 +87,7 @@ internal fun Application.module() {
     // Install was somehow not working...
     val dbAuth by inject<DatabaseAuthentication>()
     routing {
+
         groups("groups", groupRepo)
         categories("categories", categoryRepo)
         users("users", userRepo)
@@ -63,7 +95,14 @@ internal fun Application.module() {
         appointments("appointments", appointmentRepo)
         notes("notes", noteRepo)
         // Routes that must not be protected!
-
+        authenticate() {
+            get("/hello") {
+                val principal = call.principal<JWTPrincipal>()
+                val username = principal!!.payload.getClaim("username").asString()
+                val expiresAt = principal.expiresAt?.time?.minus(System.currentTimeMillis())
+                call.respondText("Hello, $username! Token is expired at $expiresAt ms.")
+            }
+        }
 
         post("/login") {
             val user = call.receive<User>()

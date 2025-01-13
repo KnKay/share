@@ -17,9 +17,9 @@ class DatabaseAuthentication(val config: ApplicationConfig) : KoinComponent, Aut
     private val repo by inject<UserJdbcRepository>()
 
     //Can we inject this??
-    val secret = config.property("jwt.secret").getString()
-    val issuer = config.property("jwt.issuer").getString()
-    val audience = config.property("jwt.audience").getString()
+    val secret = config.property("authorization.jwt.secret").getString()
+    val issuer = config.property("authorization.jwt.issuer").getString()
+    val audience = config.property("authorization.jwt.audience").getString()
 
 
     override suspend fun register(user: User): String {
@@ -27,12 +27,13 @@ class DatabaseAuthentication(val config: ApplicationConfig) : KoinComponent, Aut
     }
 
     override suspend fun login(user: User): String? {
-
+        TODO("We need RBAC")
         return JWT.create()
             .withAudience(audience)
             .withIssuer(issuer)
             .withClaim("username", user.username)
-            .withExpiresAt(Date(System.currentTimeMillis() + 60000))
+            .withClaim("groups", user.groups)
+            .withExpiresAt(Date(System.currentTimeMillis() + 6000000))
             .sign(Algorithm.HMAC256(secret))
     }
 }
