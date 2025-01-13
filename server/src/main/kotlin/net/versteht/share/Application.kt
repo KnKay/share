@@ -18,11 +18,14 @@ import net.versteht.share.di.getKoinModule
 import net.versteht.share.routing.*
 import org.koin.ktor.ext.inject
 import io.ktor.serialization.kotlinx.json.*
+import io.ktor.server.request.receive
 import org.koin.ktor.plugin.Koin
 
 import org.koin.logger.slf4jLogger
 import kotlinx.serialization.Serializable
+import net.versteht.share.authentication.DatabaseAuthentication
 import net.versteht.share.database.*
+import net.versteht.share.objects.User
 
 
 @Serializable
@@ -35,10 +38,9 @@ fun main(args: Array<String>) {
 
 
 internal fun Application.module() {
-    val db = database(environment.config)
     install(Koin) {
         slf4jLogger()
-        modules(getKoinModule(db))
+        modules(getKoinModule(environment.config))
     }
 
     install(ContentNegotiation) {
@@ -52,7 +54,7 @@ internal fun Application.module() {
     val appointmentRepo by inject<AppointmentJdbcRepository>()
     val noteRepo by inject<NoteJdbcRepository>()
     // Install was somehow not working...
-
+    val dbAuth by inject<DatabaseAuthentication>()
     routing {
         groups("groups", groupRepo)
         categories("categories", categoryRepo)
@@ -60,11 +62,14 @@ internal fun Application.module() {
         items("items", itemRepo)
         appointments("appointments", appointmentRepo)
         notes("notes", noteRepo)
-        route{
-            get("test"){
-                val ret = test("me")
-                call.respond(HttpStatusCode.OK, ret)
-            }
+        // Routes that must not be protected!
+
+
+        post("/login") {
+            val user = call.receive<User>()
+            val token = dbAuth.login(user)
+            // do things needed to be done
+            call.respond(hashMapOf("token" to token))
         }
     }
 

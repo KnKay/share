@@ -28,3 +28,4 @@ You can open the web application by running the `:composeApp:wasmJsBrowserDevelo
 
 Kay: 
 https://github.com/hlnstepanova/kmpizza-repo/blob/main/buildSrc/src/main/kotlin/Versions.kt
+https://ximedes.com/blog/2020-09-17/role-based-authorization-in-ktor
