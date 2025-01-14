@@ -11,15 +11,12 @@ import io.ktor.server.config.ApplicationConfig
 
 import kotlin.getValue
 
-class DatabaseAuthentication(val config: ApplicationConfig) : KoinComponent, AuthenticationInterface {
+class DatabaseAuthentication(val secret: String, val issuer: String, val audience: String) : KoinComponent, AuthenticationInterface {
 
     //We need a database from koin...
     private val repo by inject<UserJdbcRepository>()
 
     //Can we inject this??
-    val secret = config.property("authorization.jwt.secret").getString()
-    val issuer = config.property("authorization.jwt.issuer").getString()
-    val audience = config.property("authorization.jwt.audience").getString()
 
 
     override suspend fun register(user: User): String {
@@ -27,7 +24,6 @@ class DatabaseAuthentication(val config: ApplicationConfig) : KoinComponent, Aut
     }
 
     override suspend fun login(user: User): String? {
-        TODO("We need RBAC")
         return JWT.create()
             .withAudience(audience)
             .withIssuer(issuer)

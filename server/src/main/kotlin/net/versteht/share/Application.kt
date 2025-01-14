@@ -56,7 +56,7 @@ internal fun Application.module() {
     val audience = environment.config.property("authorization.jwt.audience").getString()
     val myRealm = environment.config.property("authorization.jwt.realm").getString()
     install(Authentication){
-        jwt("auth-jwt") {
+        jwt() {
             realm = myRealm
             verifier(JWT
                 .require(Algorithm.HMAC256(secret))
@@ -96,7 +96,7 @@ internal fun Application.module() {
         notes("notes", noteRepo)
         // Routes that must not be protected!
         authenticate() {
-            get("/hello") {
+            get("/ping") {
                 val principal = call.principal<JWTPrincipal>()
                 val username = principal!!.payload.getClaim("username").asString()
                 val expiresAt = principal.expiresAt?.time?.minus(System.currentTimeMillis())

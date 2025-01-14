@@ -12,12 +12,17 @@ import org.jetbrains.exposed.sql.Database
 
 
 internal fun Application.getKoinModule(config: ApplicationConfig) = module {
+    val secret = config.property("authorization.jwt.secret").getString()
+    val issuer = config.property("authorization.jwt.issuer").getString()
+    val audience = config.property("authorization.jwt.audience").getString()
     val database = database(config)
+
+
     single {GroupJdbcRepository(database)}
     single {CategoryJdbcRepository(database)}
     single {UserJdbcRepository(database)}
     single {ItemJdbcRepository(database)}
     single {AppointmentJdbcRepository(database)}
     single {NoteJdbcRepository(database)}
-    single { DatabaseAuthentication(config) }
+    single { DatabaseAuthentication(secret, issuer, audience) }
 }
