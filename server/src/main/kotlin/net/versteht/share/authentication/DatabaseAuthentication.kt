@@ -8,6 +8,10 @@ import org.koin.core.component.inject
 import java.util.*
 import com.auth0.jwt.algorithms.*
 import io.ktor.server.config.ApplicationConfig
+import net.versteht.share.database.UserDAO
+import net.versteht.share.database.UserTable
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.and
 
 import kotlin.getValue
 
@@ -24,6 +28,15 @@ class DatabaseAuthentication(val secret: String, val issuer: String, val audienc
     }
 
     override suspend fun login(user: User): String? {
+        // We need to check if the user is in the db, having the password
+        val found = UserDAO
+            .find { (UserTable.email eq user.email) and (UserTable.password eq user.password)}
+            .firstOrNull()
+
+        if (found != null){
+            return ""
+        }
+
         return JWT.create()
             .withAudience(audience)
             .withIssuer(issuer)

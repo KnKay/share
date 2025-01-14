@@ -83,4 +83,6 @@ class DatabaseAuthenticationTest : KoinTest {
         val token = dut.login(user)
         assertIsNot<Null>(token, "login failed")
     }
+
+
 }
