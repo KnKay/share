@@ -29,6 +29,14 @@ You can open the web application by running the `:composeApp:wasmJsBrowserDevelo
 Kay: 
 
 https://github.com/hlnstepanova/kmpizza-repo/blob/main/buildSrc/src/main/kotlin/Versions.kt
+
 https://ximedes.com/blog/2020-09-17/role-based-authorization-in-ktor
 https://codersee.com/secure-rest-api-ktor-role-based-authorization-rbac/
+
+
 https://gist.github.com/jobinlawrance/c086550173cea17dfc9a3f972ace7a43
+
+
+https://mailtrap.io/blog/android-javamail-api/
+https://archanaa.medium.com/email-service-in-kotlin-with-apache-freemarker-b163c2beba5c
+https://mailtrap.io/blog/android-javamail-api/

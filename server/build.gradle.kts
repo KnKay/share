@@ -33,6 +33,7 @@ dependencies {
     implementation(libs.ktor.server.swaggergen)
     implementation(libs.ktor.server.auth)
     implementation(libs.ktor.server.auth.jwt)
+    implementation(libs.jakarta.mail)
 
     testImplementation(libs.ktor.server.tests)
     testImplementation(libs.kotlin.test.junit)

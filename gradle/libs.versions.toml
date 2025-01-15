@@ -26,6 +26,7 @@ koin = "4.0.1"
 datetime = "0.6.1"
 swagger-gen = "4.1.2"
 sqlite = "3.44.1.0"
+jakarta-mail = "2.1.3"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -64,7 +65,7 @@ ktor-server-swaggergen = {module = "io.github.smiley4:ktor-swagger-ui", version.
 ktor-server-auth = { module = "io.ktor:ktor-server-auth-jvm", version.ref = "ktor" }
 ktor-server-auth-jwt = { module = "io.ktor:ktor-server-auth-jwt-jvm", version.ref = "ktor" }
 ktor-server-config-yaml = { module = "io.ktor:ktor-server-config-yaml-jvm", version.ref = "ktor" }
-
+jakarta-mail = { module = "jakarta.mail:jakarta.mail-api", version.ref = "jakarta-mail" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
