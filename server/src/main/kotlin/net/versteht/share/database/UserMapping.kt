@@ -16,9 +16,10 @@ object UserGroupsTable : Table() {
 object UserTable: IntIdTable(){
     val username = varchar("username", 50).uniqueIndex()
     val email = varchar("email", 50).uniqueIndex()
-    val password = varchar("password", 50)
+    val password = varchar("password", 50).nullable()
     val firstnames = varchar("firstnames", 50)
     val lastname = varchar("lastname", 50)
+    val confirmation = varchar("confirmation", length = 24)
 }
 
 class UserDAO(id: EntityID<Int>) : IntEntity(id) {
@@ -28,6 +29,7 @@ class UserDAO(id: EntityID<Int>) : IntEntity(id) {
     var password by UserTable.password
     var firstnames by UserTable.firstnames
     var lastname by UserTable.lastname
+    var confirmation by UserTable.confirmation
     var groups by GroupDAO via UserGroupsTable
 }
 
