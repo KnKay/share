@@ -33,7 +33,7 @@ class DatabaseAuthentication(val secret: String, val issuer: String, val audienc
         // We need to check if the user is in the db, having the password
         val found = transaction {
             return@transaction UserDAO
-                .find { (UserTable.email eq user.email) and (UserTable.password eq user.password)}
+                .find { (UserTable.email eq user.email) and (UserTable.password eq user.password) and (UserTable.confirmation neq "")}
                 .limit(1)
                 .map(::DAOtoUser)
                 .firstOrNull()
