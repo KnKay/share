@@ -32,6 +32,7 @@ import net.versteht.share.objects.User
 
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
+import net.versteht.share.authentication.withRoles
 
 @Serializable
 data class test(val name: String)
@@ -95,12 +96,22 @@ internal fun Application.module() {
         appointments("appointments", appointmentRepo)
         notes("notes", noteRepo)
         // Routes that must not be protected!
-        authenticate() {
+        authenticate {
             get("/ping") {
                 val principal = call.principal<JWTPrincipal>()
                 val username = principal!!.payload.getClaim("username").asString()
                 val expiresAt = principal.expiresAt?.time?.minus(System.currentTimeMillis())
                 call.respondText("Hello, $username! Token is expired at $expiresAt ms.")
+            }
+        }
+        authenticate() {
+            withRoles ("admin"){
+                get("/pong") {
+                    val principal = call.principal<JWTPrincipal>()
+                    val username = principal!!.payload.getClaim("username").asString()
+                    val expiresAt = principal.expiresAt?.time?.minus(System.currentTimeMillis())
+                    call.respondText("Hello, $username! Token is expired at $expiresAt ms.")
+                }
             }
         }
 
