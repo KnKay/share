@@ -19,7 +19,7 @@ class  NoteJdbcRepository(database: Database) : CrudRepositoryInterface<Note> {
         }
     }
 
-    override suspend fun create(t: Note): Boolean {
+    override suspend fun create(t: Note): Note {
         TODO("Not yet implemented")
     }
 

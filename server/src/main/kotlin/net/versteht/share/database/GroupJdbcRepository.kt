@@ -19,7 +19,7 @@ class  GroupJdbcRepository(database: Database) : CrudRepositoryInterface<Group> 
         }
     }
 
-    override suspend fun create(t: Group): Boolean {
+    override suspend fun create(t: Group): Group {
         TODO("Not yet implemented")
     }
 

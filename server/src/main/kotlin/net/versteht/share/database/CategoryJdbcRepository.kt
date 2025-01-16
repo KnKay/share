@@ -19,8 +19,12 @@ class  CategoryJdbcRepository(database: Database) : CrudRepositoryInterface<Cate
         }
     }
 
-    override suspend fun create(t: Category): Boolean {
-        TODO("Not yet implemented")
+    override suspend fun create(t: Category): Category {
+        return  DAOtoCategory(CategoryDAO.new {
+            name = t.name
+            open = t.open
+        })
+
     }
 
     override suspend fun read(id: Int): Category?  = suspendTransaction {
