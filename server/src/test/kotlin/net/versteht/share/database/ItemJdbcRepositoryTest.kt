@@ -17,6 +17,7 @@ class ItemJdbcRepositoryTest {
             SchemaUtils.create(UserTable)
             SchemaUtils.create(CategoryTable)
             SchemaUtils.create(UserGroupsTable)
+            SchemaUtils.create(ItemNoteTable)
             CategoryDAO.new {
                 name = "testCat"
                 open = true

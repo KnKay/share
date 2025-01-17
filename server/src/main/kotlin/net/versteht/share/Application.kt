@@ -2,19 +2,12 @@ package net.versteht.share
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import io.github.smiley4.ktorswaggerui.SwaggerUI
-import io.github.smiley4.ktorswaggerui.dsl.routing.route
-import io.github.smiley4.ktorswaggerui.routing.swaggerUI
-import io.github.smiley4.ktorswaggerui.routing.openApiSpec
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
-import net.versteht.share.di.database
 import net.versteht.share.di.getKoinModule
 
 import net.versteht.share.routing.*
@@ -84,7 +77,7 @@ internal fun Application.module() {
     val userRepo by   inject<UserJdbcRepository>()
     val itemRepo by inject<ItemJdbcRepository>()
     val appointmentRepo by inject<AppointmentJdbcRepository>()
-    val noteRepo by inject<NoteJdbcRepository>()
+    val noteRepo by inject<ItemNoteJdbcRepository>()
     // Install was somehow not working...
     val dbAuth by inject<DatabaseAuthentication>()
     routing {
@@ -94,7 +87,7 @@ internal fun Application.module() {
         users("users", userRepo)
         items("items", itemRepo)
         appointments("appointments", appointmentRepo)
-        notes("notes", noteRepo)
+
         // Routes that must not be protected!
         authenticate {
             get("/ping") {
