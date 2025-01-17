@@ -15,6 +15,6 @@ class ItemNoteDAO(id: EntityID<Int>): IntEntity(id) {
     companion object: IntEntityClass<ItemNoteDAO>(ItemNoteTable)
     var note by ItemNoteTable.note
     var item by ItemDAO referencedOn ItemNoteTable.item
-    fun toItemNote() =  ItemNote(DAOtoItem(item), note)
+    fun toItemNote() =  ItemNote(DAOtoItem(item), note, id.value)
 }
 

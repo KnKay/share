@@ -1,9 +1,12 @@
 package net.versteht.share.database
 
 import kotlinx.coroutines.test.runTest
+import net.versteht.share.objects.Group
+import net.versteht.share.objects.ItemNote
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.junit.jupiter.api.Assertions
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -40,7 +43,20 @@ class ItemNoteJdbcRepositoryTest {
         return dut
     }
     @Test
-    fun create() {
+    fun create(): Unit = runTest {
+        val dut = getDut("create")
+        val insert = transaction {
+            val all = ItemNoteDAO.all().count()
+            Assertions.assertEquals(0, all.toInt())
+            return@transaction ItemNote(DAOtoItem(ItemDAO.findById(1)!!), "This is a new note")
+        }
+
+
+        dut.create(insert)
+        transaction {
+            val all = ItemNoteDAO.all().count()
+            Assertions.assertEquals(1, all.toInt())
+        }
     }
 
     @Test
@@ -57,14 +73,43 @@ class ItemNoteJdbcRepositoryTest {
     }
 
     @Test
-    fun list() {
+    fun list() = runTest  {
+        val dut = getDut("list")
+        transaction {
+            ItemNoteDAO.new {
+                note = "this is a note"
+                item = ItemDAO.findById(1)!!
+            }
+        }
+        assertEquals(1, dut.list().size)
     }
 
     @Test
-    fun delete() {
+    fun delete() = runTest  {
+        val dut = getDut("delete")
+        val remove = transaction {
+            return@transaction ItemNoteDAO.new {
+                note = "this is a note"
+                item = ItemDAO.findById(1)!!
+            }.toItemNote()
+        }
+
+        assertEquals(true, dut.delete(remove))
+
     }
 
     @Test
-    fun update() {
+    fun update(): Unit = runTest {
+        val dut = getDut("update")
+        var update = transaction {
+            return@transaction ItemNoteDAO.new {
+                note = "this is a note"
+                item = ItemDAO.findById(1)!!
+            }.toItemNote()
+        }
+        update.note = "updated"
+        dut.update(update)
+        val readBack = dut.read(1)
+        Assertions.assertEquals(update.note, readBack?.note)
     }
 }

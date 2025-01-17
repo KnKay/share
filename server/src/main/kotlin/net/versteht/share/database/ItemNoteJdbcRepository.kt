@@ -17,9 +17,9 @@ class  ItemNoteJdbcRepository(database: Database) : CrudRepositoryInterface<Item
     }
 
     override suspend fun create(t: ItemNote): ItemNote = suspendTransaction  {
-        var item = ItemDAO.findById(t.item.id!!)
+        val foundItem = ItemDAO.findById(t.item.id!!)
         ItemNoteDAO.new {
-            item = item!!
+            item = foundItem!!
             note = t.note
         }.toItemNote()
     }
