@@ -43,7 +43,7 @@ class  UserJdbcRepository(database: Database) : CrudRepositoryInterface<User> {
         return@suspendTransaction DAOtoUser(user)
     }
 
-    override suspend fun create(t: User): Boolean {
+    override suspend fun create(t: User): User {
         TODO("Not yet implemented")
     }
 
@@ -61,7 +61,7 @@ class  UserJdbcRepository(database: Database) : CrudRepositoryInterface<User> {
                 .map(::DAOtoUser)
     }
 
-    override suspend fun delete(t: User): User {
+    override suspend fun delete(t: User): Boolean {
         TODO("Not yet implemented")
     }
 

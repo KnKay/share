@@ -37,7 +37,7 @@ class  NoteJdbcRepository(database: Database) : CrudRepositoryInterface<Note> {
                 .map(::DAOtoNote)
     }
 
-    override suspend fun delete(t: Note): Note {
+    override suspend fun delete(t: Note): Boolean {
         TODO("Not yet implemented")
     }
 

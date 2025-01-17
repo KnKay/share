@@ -19,7 +19,7 @@ class  AppointmentJdbcRepository(database: Database) : CrudRepositoryInterface<A
         }
     }
 
-    override suspend fun create(t: Appointment): Boolean {
+    override suspend fun create(t: Appointment): Appointment? {
         TODO("Not yet implemented")
     }
 
@@ -37,7 +37,7 @@ class  AppointmentJdbcRepository(database: Database) : CrudRepositoryInterface<A
                 .map(::DAOtoAppointment)
     }
 
-    override suspend fun delete(t: Appointment): Appointment {
+    override suspend fun delete(t: Appointment): Boolean {
         TODO("Not yet implemented")
     }
 

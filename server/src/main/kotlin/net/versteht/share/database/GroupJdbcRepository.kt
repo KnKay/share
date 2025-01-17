@@ -37,7 +37,7 @@ class  GroupJdbcRepository(database: Database) : CrudRepositoryInterface<Group> 
                 .map(::DAOtoGroup)
     }
 
-    override suspend fun delete(t: Group): Group {
+    override suspend fun delete(t: Group): Boolean {
         TODO("Not yet implemented")
     }
 

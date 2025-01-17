@@ -37,7 +37,7 @@ class  ItemJdbcRepository(database: Database) : CrudRepositoryInterface<Item> {
                 .map(::DAOtoItem)
     }
 
-    override suspend fun delete(t: Item): Item {
+    override suspend fun delete(t: Item): Boolean {
         TODO("Not yet implemented")
     }
 
