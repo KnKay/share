@@ -2,6 +2,7 @@ package net.versteht.share.database
 
 
 
+import io.ktor.server.plugins.*
 import io.ktor.server.routing.*
 import net.versteht.share.objects.Category
 import org.jetbrains.exposed.sql.*
@@ -50,7 +51,7 @@ class  CategoryJdbcRepository(database: Database) : CrudRepositoryInterface<Cate
             it.open = t.open
         }
         if ( dao == null ){
-            throw Exception("")
+            throw NotFoundException("Category ${t.name} not found")
         }
         DAOtoCategory(dao)
     }

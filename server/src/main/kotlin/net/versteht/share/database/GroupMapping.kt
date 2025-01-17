@@ -15,4 +15,4 @@ class GroupDAO(id: EntityID<Int>) : IntEntity(id) {
     var name by GroupTable.name
 }
 
-fun DAOtoGroup(dao: GroupDAO): Group = Group(dao.name)
+fun DAOtoGroup(dao: GroupDAO): Group = Group(dao.name, dao.id.value)
