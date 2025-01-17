@@ -3,12 +3,9 @@ package net.versteht.share.database
 import io.ktor.server.plugins.*
 import net.versteht.share.objects.Group
 import net.versteht.share.objects.User
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.addLogger
-import org.jetbrains.exposed.sql.StdOutSqlLogger
 
 class  UserJdbcRepository(database: Database) : CrudRepositoryInterface<User> {
 
@@ -61,12 +58,18 @@ class  UserJdbcRepository(database: Database) : CrudRepositoryInterface<User> {
                 .map(::DAOtoUser)
     }
 
-    override suspend fun delete(t: User): Boolean {
-        TODO("Not yet implemented")
+    override suspend fun delete(t: User): Boolean = suspendTransaction {
+        UserTable.deleteWhere { UserTable.id eq t.id } == 1
     }
 
-    override suspend fun update(t: User): User {
-        TODO("Not yet implemented")
+    override suspend fun update(t: User): User = suspendTransaction {
+        val dao = UserDAO.findByIdAndUpdate(t.id!!){
+
+        }
+        if (dao == null){
+            throw NotFoundException("Item ${t.username} not found")
+        }
+        DAOtoUser(dao)
     }
 
     companion object {
