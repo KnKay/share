@@ -57,10 +57,15 @@ class  ItemJdbcRepository(database: Database) : CrudRepositoryInterface<Item> {
     }
 
     override suspend fun update(t: Item): Item = suspendTransaction {
+        val cat = CategoryDAO.findById(t.category.id!!) ?: throw NotFoundException("nested category not found")
+        var grp: GroupDAO? = null
+        if (t.delegatedGroup != null){
+            grp = GroupDAO.findById(t.delegatedGroup!!.id!!)
+        }
         val dao = ItemDAO.findByIdAndUpdate(t.id!!){
             it.name = t.name
-            it.category = CategoryDAO.findById(t.category.id!!)!!
-            it.delegatedGroup = GroupDAO.findById(t.delegatedGroup?.id!!)
+            it.category = cat
+            it.delegatedGroup = grp
         }
         if (dao == null){
             throw NotFoundException("Item ${t.name} not found")

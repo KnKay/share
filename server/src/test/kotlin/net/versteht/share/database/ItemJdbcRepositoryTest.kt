@@ -17,7 +17,6 @@ class ItemJdbcRepositoryTest {
             SchemaUtils.create(UserTable)
             SchemaUtils.create(CategoryTable)
             SchemaUtils.create(UserGroupsTable)
-            SchemaUtils.create(NoteTable)
             CategoryDAO.new {
                 name = "testCat"
                 open = true
@@ -104,7 +103,7 @@ class ItemJdbcRepositoryTest {
 
     @Test
     fun update(): Unit = runTest {
-        val dut = getDut("delete")
+        val dut = getDut("update")
         var update = transaction {
             return@transaction DAOtoItem( ItemDAO.new {
                 name = "myFirstItem"
