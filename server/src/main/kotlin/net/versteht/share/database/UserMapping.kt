@@ -33,4 +33,4 @@ class UserDAO(id: EntityID<Int>) : IntEntity(id) {
     var groups by GroupDAO via UserGroupsTable
 }
 
-fun DAOtoUser(dao: UserDAO): User = User(dao.username, dao.email, dao.password, dao.firstnames, dao.lastname, dao.groups.map(::DAOtoGroup).toList())
+fun DAOtoUser(dao: UserDAO): User = User(dao.username, dao.email, dao.password, dao.firstnames, dao.lastname, dao.groups.map(::DAOtoGroup).toList(), dao.id.value)

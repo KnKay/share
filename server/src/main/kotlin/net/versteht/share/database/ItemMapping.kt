@@ -29,14 +29,12 @@ fun DAOtoItem(dao: ItemDAO): Item{
         val test = dao.delegatedGroup
         delegation = DAOtoGroup(test!!)
     }
-    val notes = NoteDAO
-        .find { NoteTable.item eq dao.id }
-        .map(::DAONoteToString)
     return Item(
         dao.name,
         DAOtoCategory(dao.category),
         DAOtoUser(dao.owner),
         delegation,
-        notes
+        id = dao.id.value
+
     )
 }
