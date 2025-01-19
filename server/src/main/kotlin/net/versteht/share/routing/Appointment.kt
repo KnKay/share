@@ -21,5 +21,6 @@ internal fun Routing.appointments(path: String, repo: CrudRepositoryInterface<Ap
             get {
                 call.respond(HttpStatusCode.OK, repo.list())
             }
+
         }
 }
