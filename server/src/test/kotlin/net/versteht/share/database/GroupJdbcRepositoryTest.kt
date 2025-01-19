@@ -39,6 +39,7 @@ class GroupJdbcRepositoryTest {
         val id = transaction {
             return@transaction GroupDAO.new {
                 name = toCreate.name
+                open = toCreate.open!!
             }
         }
         val read = dut.read(1)
@@ -53,9 +54,11 @@ class GroupJdbcRepositoryTest {
             SchemaUtils.create(GroupTable)
             GroupTable.insert {
                 it[name] = "admin"
+                it[open] = false
             }
             GroupTable.insert {
                 it[name] = "user"
+                it[open] = false
             }
         }
         val data = dut.list()
@@ -68,12 +71,13 @@ class GroupJdbcRepositoryTest {
         val toRemove = transaction {
             GroupDAO.new {
                 name = "eins"
+                open = false
             }
             return@transaction GroupDAO.findById(1)
         }
         dut.delete(DAOtoGroup(toRemove!!))
         transaction {
-            val all = CategoryDAO.all().count()
+            val all = GroupDAO.all().count()
             assertEquals(0, all.toInt())
         }
     }
@@ -84,9 +88,10 @@ class GroupJdbcRepositoryTest {
         transaction {
             GroupDAO.new {
                 name = "eins"
+                open = false
             }
         }
-        val toUpdate = Group("einsUpdate", 1)
+        val toUpdate = Group("einsUpdate", false, 1)
         dut.update(toUpdate)
         val readBack = dut.read(1)
         assertEquals(toUpdate.name, readBack?.name)

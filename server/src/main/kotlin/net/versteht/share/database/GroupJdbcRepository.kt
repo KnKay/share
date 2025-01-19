@@ -21,6 +21,7 @@ class  GroupJdbcRepository(database: Database) : CrudRepositoryInterface<Group> 
     override suspend fun create(t: Group): Group = suspendTransaction {
         DAOtoGroup(GroupDAO.new {
                 name = t.name
+                open = t.open!!
             }
         )
     }
@@ -47,6 +48,7 @@ class  GroupJdbcRepository(database: Database) : CrudRepositoryInterface<Group> 
     override suspend fun update(t: Group): Group = suspendTransaction {
         val dao = GroupDAO.findByIdAndUpdate(t.id!!){
             it.name = t.name
+            it.open = t.open!!
         }
         if (dao == null){
             throw NotFoundException("Group ${t.name} not found")
