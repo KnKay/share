@@ -7,7 +7,10 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.*
 import com.auth0.jwt.algorithms.*
+import io.ktor.server.auth.jwt.JWTPrincipal
+import io.ktor.server.auth.principal
 import io.ktor.server.config.ApplicationConfig
+import io.ktor.server.routing.RoutingCall
 import net.versteht.share.database.DAOtoUser
 import net.versteht.share.database.UserDAO
 import net.versteht.share.database.UserTable
@@ -21,13 +24,6 @@ class DatabaseAuthentication(val secret: String, val issuer: String, val audienc
 
     //We need a database from koin...
     private val repo by inject<UserJdbcRepository>()
-
-    //Can we inject this??
-
-
-    override suspend fun register(user: User): String {
-        TODO("Not yet implemented")
-    }
 
     override suspend fun login(user: User): String? {
         // We need to check if the user is in the db, having the password
@@ -47,7 +43,16 @@ class DatabaseAuthentication(val secret: String, val issuer: String, val audienc
             .withIssuer(issuer)
             .withClaim("username", found.username)
             .withClaim("groups", found.groups!!.map { it.name })
+            .withClaim("id", user.id)
             .withExpiresAt(Date(System.currentTimeMillis() + 6000000))
             .sign(Algorithm.HMAC256(secret))
+    }
+
+    override suspend fun getUser(call: RoutingCall): User? {
+        val id = call.principal<JWTPrincipal>()
+            ?.payload
+            ?.getClaim("id")
+            ?.asInt()
+        return repo.read(id!!)
     }
 }

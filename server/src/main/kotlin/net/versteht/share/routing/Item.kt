@@ -6,15 +6,21 @@ import io.ktor.server.request.receive
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import net.versteht.share.database.CrudRepositoryInterface
+import net.versteht.share.authentication.AuthenticationInterface
+import net.versteht.share.model.checkRights
+import net.versteht.share.model.postCreate
 import net.versteht.share.objects.Item
+import org.koin.ktor.ext.inject
 
 internal fun Routing.items(path: String, repo: CrudRepositoryInterface<Item> ){
+        val authRepo by inject<AuthenticationInterface>()
         route(path){
-            // CREATE
             post {
                 try {
                     val item = call.receive<Item>()
-
+                    val caller = authRepo.getUser(call)
+                    item.postCreate(caller!!)
+                    repo.create(item)
                 } catch (ex: IllegalStateException) {
                     call.respond(HttpStatusCode.BadRequest)
                 } catch (ex: JsonConvertException) {
@@ -33,6 +39,30 @@ internal fun Routing.items(path: String, repo: CrudRepositoryInterface<Item> ){
             }
             get {
                 call.respond(HttpStatusCode.OK, repo.list())
+            }
+            delete {
+                val item = call.receive<Item>()
+                val caller = authRepo.getUser(call)
+                if (item.checkRights(caller!!).delete){
+                    try{
+                        call.respond(repo.update(item))
+                    }catch (ex: Exception)
+                    {
+                        call.respond(HttpStatusCode.InternalServerError)
+                    }
+                }
+            }
+            put {
+                val item = call.receive<Item>()
+                val caller = authRepo.getUser(call)
+                if (item.checkRights(caller!!).update){
+                    try{
+                        call.respond(repo.update(item))
+                    }catch (ex: Exception)
+                    {
+                        call.respond(HttpStatusCode.InternalServerError)
+                    }
+                }
             }
         }
 }
