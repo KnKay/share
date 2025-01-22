@@ -2,6 +2,7 @@ package net.versteht.share.routing
 
 import io.ktor.http.*
 import io.ktor.serialization.JsonConvertException
+import io.ktor.server.auth.*
 import io.ktor.server.request.receive
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -14,6 +15,7 @@ import org.koin.ktor.ext.inject
 
 internal fun Routing.items(path: String, repo: CrudRepositoryInterface<Item> ){
         val authRepo by inject<AuthenticationInterface>()
+    authenticate {
         route(path){
             post {
                 try {
@@ -65,4 +67,5 @@ internal fun Routing.items(path: String, repo: CrudRepositoryInterface<Item> ){
                 }
             }
         }
+    }
 }

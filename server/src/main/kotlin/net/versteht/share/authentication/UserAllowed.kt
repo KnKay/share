@@ -1,8 +1,8 @@
 package net.versteht.share.authentication
 
 data class UserAllowed(
-    val create: Boolean,
-    val read: Boolean,
-    val update: Boolean,
-    val delete: Boolean,
+    val create: Boolean = false,
+    val read: Boolean = false,
+    val update: Boolean = false,
+    val delete: Boolean = false,
 )

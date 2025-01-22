@@ -9,6 +9,6 @@ data class Appointment(
     val startDate: String,
     val endDate: String,
     var confirmed: Boolean,
-    val requester: User?,
+    var requester: User?,
     val id: Int? = null,
 )
