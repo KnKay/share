@@ -32,7 +32,7 @@ class  ItemJdbcRepository(database: Database) : CrudRepositoryInterface<Item> {
         DAOtoItem(ItemDAO.new {
             name = t.name
             category = CategoryDAO.findById(t.category.id!!)!!
-            owner = UserDAO.find(UserTable.id eq t.owner.id).firstOrNull()!!
+            owner = UserDAO.find(UserTable.id eq t.owner?.id).firstOrNull()!!
             delegatedGroup = delegation
         })
     }

@@ -12,7 +12,7 @@ fun Appointment.postCreate(user: User){
 fun Appointment.checkRights(user: User): UserAllowed = UserAllowed(
     true,
     true,
-    (requester?.id == user.id) || (item.owner.id == user.id),
-    (requester?.id == user.id) || (item.owner.id == user.id),
+    (requester?.id == user.id) || (item.owner?.id == user.id),
+    (requester?.id == user.id) || (item.owner?.id == user.id),
 )
 

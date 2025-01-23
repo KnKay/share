@@ -10,6 +10,6 @@ fun Item.postCreate(anOwner: User){
 fun Item.checkRights(user: User): UserAllowed = UserAllowed(
     true,
     true,
-    owner.id == user.id,
-    owner.id == user.id,
+    owner?.id == user.id,
+    owner?.id == user.id,
 )

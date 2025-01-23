@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 data class Item(
     var name: String,
     val category: Category,
-    var owner: User,
+    var owner: User?,
     val delegatedGroup: Group?,
     val notes: List<String>? = null,
     val id: Int? = null

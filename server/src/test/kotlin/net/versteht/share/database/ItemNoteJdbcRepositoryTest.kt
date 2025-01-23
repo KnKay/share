@@ -39,6 +39,7 @@ class ItemNoteJdbcRepositoryTest {
                 name = "myFirstItem"
                 delegatedGroup = null
             }
+            
         }
         return dut
     }

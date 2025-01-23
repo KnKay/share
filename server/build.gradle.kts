@@ -40,4 +40,5 @@ dependencies {
     testImplementation(libs.kotlin.test.junit)
     testImplementation(libs.koin.test)
     testImplementation(libs.jayway)
+    testImplementation(libs.ktor.client.content.negotiation )
 }

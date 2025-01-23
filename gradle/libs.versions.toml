@@ -70,6 +70,7 @@ ktor-server-config-yaml = { module = "io.ktor:ktor-server-config-yaml-jvm", vers
 jakarta-mail = { module = "jakarta.mail:jakarta.mail-api", version.ref = "jakarta-mail" }
 angus = { module = "org.eclipse.angus:jakarta.mail", version.ref = "angus" }
 jayway = {module = "com.jayway.jsonpath:json-path",  version.ref = "jayway" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
