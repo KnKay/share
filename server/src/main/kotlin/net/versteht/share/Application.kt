@@ -86,6 +86,7 @@ internal fun Application.module() {
         users("users", userRepo)
         items("items", itemRepo)
         appointments("appointments", appointmentRepo)
+        itemNotes("itemnotes", noteRepo)
         authenticate() {
             withRoles ("admin"){
                 get("/pong") {

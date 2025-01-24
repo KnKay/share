@@ -7,10 +7,10 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import net.versteht.share.database.CrudRepositoryInterface
-import net.versteht.share.objects.Note
+import net.versteht.share.objects.ItemNote
 
 
-internal fun Routing.notes(path: String, repo: CrudRepositoryInterface<Note> ){
+internal fun Routing.itemNotes(path: String, repo: CrudRepositoryInterface<ItemNote> ){
         route(path){
             get("/{id}") {
                 val id = call.parameters["id"]!!.toInt()
@@ -27,7 +27,7 @@ internal fun Routing.notes(path: String, repo: CrudRepositoryInterface<Note> ){
             authenticate {
                 post {
                     try {
-                        val item = call.receive<Note>()
+                        val item = call.receive<ItemNote>()
                         repo.create(item)
                     } catch (ex: IllegalStateException) {
                         call.respond(HttpStatusCode.BadRequest)
@@ -36,19 +36,16 @@ internal fun Routing.notes(path: String, repo: CrudRepositoryInterface<Note> ){
                     }
                 }
                 delete {
-                    val item = call.receive<Note>()
-
-
+                    val item = call.receive<ItemNote>()
                         try{
                             call.respond(repo.update(item))
                         }catch (ex: Exception)
                         {
                             call.respond(HttpStatusCode.InternalServerError)
                         }
-
                 }
                 put {
-                    val item = call.receive<Note>()
+                    val item = call.receive<ItemNote>()
 
 
                         try{
