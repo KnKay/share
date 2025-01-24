@@ -9,13 +9,11 @@ import java.util.*
 import com.auth0.jwt.algorithms.*
 import io.ktor.server.auth.jwt.JWTPrincipal
 import io.ktor.server.auth.principal
-import io.ktor.server.config.ApplicationConfig
 import io.ktor.server.routing.RoutingCall
 import net.versteht.share.database.DAOtoUser
 import net.versteht.share.database.UserDAO
 import net.versteht.share.database.UserTable
 import net.versteht.share.objects.Login
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.collections.HashMap

@@ -1,27 +1,18 @@
 package net.versteht.share.application
 
-//import org.junit.Before
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.testing.*
-import net.versteht.share.module
-import io.ktor.client.call.*
 
-import io.ktor.client.request.*
 import kotlin.test.*
-import io.ktor.client.call.*
+
 import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.request.*
-import io.ktor.http.*
-import io.ktor.serialization.kotlinx.json.*
-import io.ktor.server.testing.*
-import kotlin.test.*
+
 
 import io.ktor.server.config.*
 import net.versteht.share.database.*
 import net.versteht.share.di.database
-import net.versteht.share.objects.Item
 import net.versteht.share.objects.Login
 
 import org.jetbrains.exposed.sql.SchemaUtils

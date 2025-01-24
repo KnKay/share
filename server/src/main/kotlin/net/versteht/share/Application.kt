@@ -21,7 +21,6 @@ import org.koin.logger.slf4jLogger
 import kotlinx.serialization.Serializable
 import net.versteht.share.authentication.DatabaseAuthentication
 import net.versteht.share.database.*
-import net.versteht.share.objects.User
 
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
@@ -114,16 +113,7 @@ internal fun Application.module() {
             }
         }
     }
-
     if (developmentMode) {
         openApi()
     }
-
-
-//    configureFrameworks()
-//    configureSerialization()
-//    configureDatabases()
-//    configureHTTP()
-//    configureSecurity()
-//    configureRouting()
 }
