@@ -82,7 +82,7 @@ class DatabaseAuthenticationTest : KoinTest {
     @Test
     fun login(): Unit = runTest {
         val dut = get<DatabaseAuthentication>()
-        val user : Login = Login("admin", "nix@da.de", "")
+        val user : Login = Login("admin", "admin@test.de", "geheim")
         val token = dut.login(user)
         assertIsNot<Null>(token, "login failed")
     }

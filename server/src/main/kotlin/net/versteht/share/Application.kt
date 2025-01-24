@@ -82,22 +82,11 @@ internal fun Application.module() {
     // Install was somehow not working...
     val dbAuth by inject<DatabaseAuthentication>()
     routing {
-
         groups("groups", groupRepo)
         categories("categories", categoryRepo)
         users("users", userRepo)
         items("items", itemRepo)
         appointments("appointments", appointmentRepo)
-
-        // Routes that must not be protected!
-        authenticate {
-            get("/ping") {
-                val principal = call.principal<JWTPrincipal>()
-                val username = principal!!.payload.getClaim("username").asString()
-                val expiresAt = principal.expiresAt?.time?.minus(System.currentTimeMillis())
-                call.respondText("Hello, $username! Token is expired at $expiresAt ms.")
-            }
-        }
         authenticate() {
             withRoles ("admin"){
                 get("/pong") {
@@ -108,12 +97,21 @@ internal fun Application.module() {
                 }
             }
         }
-
         post("/login") {
             val user = call.receive<Login>()
             val token = dbAuth.login(user)
-            // do things needed to be done
             call.respond(hashMapOf("token" to token))
+        }
+        authenticate() {
+            post("/refresh") {
+                call.respond(dbAuth.refresh(call))
+            }
+            get("/ping") {
+                val principal = call.principal<JWTPrincipal>()
+                val username = principal!!.payload.getClaim("username").asString()
+                val expiresAt = principal.expiresAt?.time?.minus(System.currentTimeMillis())
+                call.respondText("Hello, $username! Token is expired at $expiresAt ms.")
+            }
         }
     }
 

@@ -18,6 +18,7 @@ import net.versteht.share.objects.Login
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
+import kotlin.collections.HashMap
 
 import kotlin.getValue
 
@@ -26,27 +27,23 @@ class DatabaseAuthentication(val secret: String, val issuer: String, val audienc
     //We need a database from koin...
     private val repo by inject<UserJdbcRepository>()
 
-    override suspend fun login(login: Login): String? {
+    override suspend fun login(login: Login): HashMap<String, String> {
         // We need to check if the user is in the db, having the password
         val found = transaction {
             return@transaction UserDAO
-                .find { (UserTable.email eq login.email!!) and (UserTable.password eq login.password) and (UserTable.confirmation neq "")}
+                .find { (UserTable.email eq login.email!!) and (UserTable.password eq login.password) and (UserTable.confirmation eq "")}
                 .limit(1)
                 .map(::DAOtoUser)
                 .firstOrNull()
         }
         if (found == null){
-            return ""
+            throw AuthenticationException()
         }
 
-        return JWT.create()
-            .withAudience(audience)
-            .withIssuer(issuer)
-            .withClaim("username", found.username)
-            .withClaim("groups", found.groups!!.map { it.name })
-            .withClaim("id", found.id)
-            .withExpiresAt(Date(System.currentTimeMillis() + 6000000))
-            .sign(Algorithm.HMAC256(secret))
+        return hashMapOf(
+            "token" to generateToken(found, 6000000)
+            ,"refreshToken" to generateToken(found, 86400000 )
+        )
     }
 
     override suspend fun getUser(call: RoutingCall): User? {
@@ -56,4 +53,22 @@ class DatabaseAuthentication(val secret: String, val issuer: String, val audienc
             ?.asInt()
         return repo.read(id!!)
     }
+
+    override suspend fun refresh(call: RoutingCall): HashMap<String, String> {
+        val user = getUser(call) ?: throw AuthenticationException()
+        return hashMapOf(
+            "token" to generateToken(user, 6000000)
+            ,"refreshToken" to generateToken(user, 86400000 )
+        )
+    }
+
+    private fun generateToken(user: User, expirationSeconds: Long): String = JWT.create()
+        .withAudience(audience)
+        .withIssuer(issuer)
+        .withClaim("username", user.username)
+        .withClaim("groups", user.groups!!.map { it.name })
+        .withClaim("id", user.id)
+        .withExpiresAt(Date(System.currentTimeMillis() + expirationSeconds))
+        .sign(Algorithm.HMAC256(secret))
+
 }
