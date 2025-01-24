@@ -2,19 +2,12 @@ package net.versteht.share
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import io.github.smiley4.ktorswaggerui.SwaggerUI
-import io.github.smiley4.ktorswaggerui.dsl.routing.route
-import io.github.smiley4.ktorswaggerui.routing.swaggerUI
-import io.github.smiley4.ktorswaggerui.routing.openApiSpec
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
-import net.versteht.share.di.database
 import net.versteht.share.di.getKoinModule
 
 import net.versteht.share.routing.*
@@ -28,11 +21,11 @@ import org.koin.logger.slf4jLogger
 import kotlinx.serialization.Serializable
 import net.versteht.share.authentication.DatabaseAuthentication
 import net.versteht.share.database.*
-import net.versteht.share.objects.User
 
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import net.versteht.share.authentication.withRoles
+import net.versteht.share.objects.Login
 
 @Serializable
 data class test(val name: String)
@@ -84,26 +77,16 @@ internal fun Application.module() {
     val userRepo by   inject<UserJdbcRepository>()
     val itemRepo by inject<ItemJdbcRepository>()
     val appointmentRepo by inject<AppointmentJdbcRepository>()
-    val noteRepo by inject<NoteJdbcRepository>()
+    val noteRepo by inject<ItemNoteJdbcRepository>()
     // Install was somehow not working...
     val dbAuth by inject<DatabaseAuthentication>()
     routing {
-
         groups("groups", groupRepo)
         categories("categories", categoryRepo)
         users("users", userRepo)
         items("items", itemRepo)
         appointments("appointments", appointmentRepo)
-        notes("notes", noteRepo)
-        // Routes that must not be protected!
-        authenticate {
-            get("/ping") {
-                val principal = call.principal<JWTPrincipal>()
-                val username = principal!!.payload.getClaim("username").asString()
-                val expiresAt = principal.expiresAt?.time?.minus(System.currentTimeMillis())
-                call.respondText("Hello, $username! Token is expired at $expiresAt ms.")
-            }
-        }
+        itemNotes("itemnotes", noteRepo)
         authenticate() {
             withRoles ("admin"){
                 get("/pong") {
@@ -114,24 +97,24 @@ internal fun Application.module() {
                 }
             }
         }
-
         post("/login") {
-            val user = call.receive<User>()
+            val user = call.receive<Login>()
             val token = dbAuth.login(user)
-            // do things needed to be done
             call.respond(hashMapOf("token" to token))
         }
+        authenticate() {
+            post("/refresh") {
+                call.respond(dbAuth.refresh(call))
+            }
+            get("/ping") {
+                val principal = call.principal<JWTPrincipal>()
+                val username = principal!!.payload.getClaim("username").asString()
+                val expiresAt = principal.expiresAt?.time?.minus(System.currentTimeMillis())
+                call.respondText("Hello, $username! Token is expired at $expiresAt ms.")
+            }
+        }
     }
-
     if (developmentMode) {
         openApi()
     }
-
-
-//    configureFrameworks()
-//    configureSerialization()
-//    configureDatabases()
-//    configureHTTP()
-//    configureSecurity()
-//    configureRouting()
 }

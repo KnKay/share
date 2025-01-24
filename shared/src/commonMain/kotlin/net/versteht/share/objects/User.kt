@@ -9,4 +9,5 @@ data class User(
     val firstnames: String,
     val lastname: String,
     val groups: List<Group>?,
+    val id: Int? = null
 )

@@ -17,4 +17,4 @@ class CategoryDAO(id: EntityID<Int>) : IntEntity(id) {
     var open by CategoryTable.open
 }
 
-fun DAOtoCategory(dao: CategoryDAO): Category = Category(dao.name, dao.open)
+fun DAOtoCategory(dao: CategoryDAO): Category = Category(dao.name, dao.open, dao.id.value)

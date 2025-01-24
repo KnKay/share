@@ -2,18 +2,15 @@ package net.versteht.share.database
 
 import kotlinx.coroutines.test.runTest
 import net.versteht.share.objects.Category
-import net.versteht.share.objects.Group
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.transactions.transaction
-import org.junit.jupiter.api.Assertions.*
-import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlin.text.insert
+import org.junit.jupiter.api.Assertions.*
 
-class GroupJdbcRepositoryTest {
-    internal fun getDut(db: String): GroupJdbcRepository{
-        val dut = GroupJdbcRepository(Database.connect("jdbc:h2:mem:${db};DB_CLOSE_DELAY=-1", driver = "org.h2.Driver"))
+class CategoryJdbcRepositoryTest {
+
+    internal fun getDut(db: String): CategoryJdbcRepository{
+        val dut = CategoryJdbcRepository(Database.connect("jdbc:h2:mem:${db};DB_CLOSE_DELAY=-1", driver = "org.h2.Driver"))
         return dut
     }
 
@@ -21,13 +18,13 @@ class GroupJdbcRepositoryTest {
     fun create(): Unit = runTest {
         val dut = getDut("create")
         transaction {
-            val all = GroupDAO.all().count()
+            val all = CategoryDAO.all().count()
             assertEquals(0, all.toInt())
         }
-        val insert = Group("one")
+        val insert = Category("created", false)
         dut.create(insert)
         transaction {
-            val all = GroupDAO.all().count()
+            val all = CategoryDAO.all().count()
             assertEquals(1, all.toInt())
         }
     }
@@ -35,14 +32,14 @@ class GroupJdbcRepositoryTest {
     @Test
     fun read(): Unit = runTest {
         val dut = getDut("read")
-        val toCreate = Group("created")
+        val toCreate = Category("to_read", true)
         val id = transaction {
-            return@transaction GroupDAO.new {
+            return@transaction CategoryDAO.new {
                 name = toCreate.name
-                open = toCreate.open!!
+                open = toCreate.open
             }
         }
-        val read = dut.read(1)
+         val read = dut.read(1)
         assertEquals(toCreate.name, read?.name)
     }
 
@@ -50,34 +47,32 @@ class GroupJdbcRepositoryTest {
     fun list(): Unit = runTest {
         val dut = getDut("list")
         transaction {
-            addLogger(StdOutSqlLogger)
-            SchemaUtils.create(GroupTable)
-            GroupTable.insert {
-                it[name] = "admin"
-                it[open] = false
+            CategoryDAO.new {
+                name = "eins"
+                open = false
             }
-            GroupTable.insert {
-                it[name] = "user"
-                it[open] = false
+            CategoryDAO.new {
+                name = "zwei"
+                open = true
             }
         }
-        val data = dut.list()
-        assertEquals(2, data.size)
+        val ret = dut.list()
+        assertEquals(2, ret.size)
     }
 
     @Test
     fun delete(): Unit = runTest {
         val dut = getDut("delete")
         val toRemove = transaction {
-            GroupDAO.new {
+            CategoryDAO.new {
                 name = "eins"
                 open = false
             }
-            return@transaction GroupDAO.findById(1)
+            return@transaction CategoryDAO.findById(1)
         }
-        dut.delete(DAOtoGroup(toRemove!!))
+        dut.delete(DAOtoCategory(toRemove!!))
         transaction {
-            val all = GroupDAO.all().count()
+            val all = CategoryDAO.all().count()
             assertEquals(0, all.toInt())
         }
     }
@@ -86,12 +81,12 @@ class GroupJdbcRepositoryTest {
     fun update(): Unit = runTest {
         val dut = getDut("update")
         transaction {
-            GroupDAO.new {
+            CategoryDAO.new {
                 name = "eins"
                 open = false
             }
         }
-        val toUpdate = Group("einsUpdate", false, 1)
+        val toUpdate = Category("einsUpdate", true, 1)
         dut.update(toUpdate)
         val readBack = dut.read(1)
         assertEquals(toUpdate.name, readBack?.name)

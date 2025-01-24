@@ -11,24 +11,27 @@ import org.jetbrains.exposed.sql.javatime.datetime
 
 
 object AppointmentTable: IntIdTable(){
-    val item = reference("item", AppointmentTable)
+    val item = reference("item", ItemTable)
     val startDate = datetime("start")
     val endDate = datetime("end")
     val confirmed = bool("confirmed")
+    val requester = reference("requester", UserTable)
 }
 
 class AppointmentDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<AppointmentDAO>(AppointmentTable)
-
     var item by ItemDAO referencedOn AppointmentTable.item
+    var requester by UserDAO referencedOn AppointmentTable.requester
     var startDate by AppointmentTable.startDate
     var endDate by AppointmentTable.endDate
     var confirmed by AppointmentTable.confirmed
 }
 
 fun DAOtoAppointment(dao: AppointmentDAO): Appointment = Appointment(
-        DAOtoItem(dao.item),
-    dao.startDate.toKotlinLocalDateTime(),
-    dao.endDate.toKotlinLocalDateTime(),
+    DAOtoItem(dao.item),
+    dao.startDate.toString(),
+    dao.endDate.toString(),
     dao.confirmed,
+    DAOtoUser(dao.requester),
+    dao.id.value
     )

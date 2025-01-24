@@ -5,4 +5,5 @@ import kotlinx.serialization.Serializable
 data class Category(
     val name: String,
     val open: Boolean,
+    val id: Int? = null
 )

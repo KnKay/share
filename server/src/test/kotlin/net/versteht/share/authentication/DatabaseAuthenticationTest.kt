@@ -3,13 +3,14 @@ package net.versteht.share.authentication
 import com.typesafe.config.ConfigException.Null
 import kotlinx.coroutines.test.runTest
 import net.versteht.share.database.*
-import net.versteht.share.objects.User
+import net.versteht.share.objects.Login
+
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Before
 
 
-import org.koin.core.context.loadKoinModules
+
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
@@ -19,7 +20,7 @@ import kotlin.test.assertIsNot
 
 
 class DatabaseAuthenticationTest : KoinTest {
-    lateinit var mockModule: Module
+
 
     @Before
     fun setup() {
@@ -35,7 +36,6 @@ class DatabaseAuthenticationTest : KoinTest {
         }
     }
     internal fun populate(){
-        val dut = GroupJdbcRepository(Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver"))
         transaction {
             addLogger(StdOutSqlLogger)
             SchemaUtils.create(UserTable)
@@ -53,6 +53,7 @@ class DatabaseAuthenticationTest : KoinTest {
                 it[password] = "geheim"
                 it[firstnames] ="admin"
                 it[lastname] = "mockel"
+                it[confirmation] = ""
             }
             UserTable.insert {
                 it[username] = "user"
@@ -60,6 +61,7 @@ class DatabaseAuthenticationTest : KoinTest {
                 it[password] = "geheim"
                 it[firstnames] ="user"
                 it[lastname] = "mockel"
+                it[confirmation] = ""
             }
             UserGroupsTable.insert {
                 it[user] = 1
@@ -79,7 +81,7 @@ class DatabaseAuthenticationTest : KoinTest {
     @Test
     fun login(): Unit = runTest {
         val dut = get<DatabaseAuthentication>()
-        val user : User = User("admin", "nix@da.de", "", "", "", null)
+        val user = Login("admin", "admin@test.de", "geheim")
         val token = dut.login(user)
         assertIsNot<Null>(token, "login failed")
     }

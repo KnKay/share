@@ -7,8 +7,6 @@ import net.versteht.share.authentication.DatabaseAuthentication
 import org.koin.dsl.*
 
 import net.versteht.share.database.*
-import net.versteht.share.objects.*
-import org.jetbrains.exposed.sql.Database
 
 
 internal fun Application.getKoinModule(config: ApplicationConfig) = module {
@@ -23,6 +21,6 @@ internal fun Application.getKoinModule(config: ApplicationConfig) = module {
     single {UserJdbcRepository(database)}
     single {ItemJdbcRepository(database)}
     single {AppointmentJdbcRepository(database)}
-    single {NoteJdbcRepository(database)}
+    single {ItemNoteJdbcRepository(database)}
     single { DatabaseAuthentication(secret, issuer, audience) }
 }
