@@ -3,6 +3,7 @@ package net.versteht.share.authentication
 import com.typesafe.config.ConfigException.Null
 import kotlinx.coroutines.test.runTest
 import net.versteht.share.database.*
+import net.versteht.share.objects.Login
 import net.versteht.share.objects.User
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -53,6 +54,7 @@ class DatabaseAuthenticationTest : KoinTest {
                 it[password] = "geheim"
                 it[firstnames] ="admin"
                 it[lastname] = "mockel"
+                it[confirmation] = ""
             }
             UserTable.insert {
                 it[username] = "user"
@@ -60,6 +62,7 @@ class DatabaseAuthenticationTest : KoinTest {
                 it[password] = "geheim"
                 it[firstnames] ="user"
                 it[lastname] = "mockel"
+                it[confirmation] = ""
             }
             UserGroupsTable.insert {
                 it[user] = 1
@@ -79,7 +82,7 @@ class DatabaseAuthenticationTest : KoinTest {
     @Test
     fun login(): Unit = runTest {
         val dut = get<DatabaseAuthentication>()
-        val user : User = User("admin", "nix@da.de", "", "", "", null)
+        val user : Login = Login("admin", "nix@da.de", "")
         val token = dut.login(user)
         assertIsNot<Null>(token, "login failed")
     }

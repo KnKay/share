@@ -14,6 +14,7 @@ import io.ktor.server.routing.RoutingCall
 import net.versteht.share.database.DAOtoUser
 import net.versteht.share.database.UserDAO
 import net.versteht.share.database.UserTable
+import net.versteht.share.objects.Login
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -25,11 +26,11 @@ class DatabaseAuthentication(val secret: String, val issuer: String, val audienc
     //We need a database from koin...
     private val repo by inject<UserJdbcRepository>()
 
-    override suspend fun login(user: User): String? {
+    override suspend fun login(login: Login): String? {
         // We need to check if the user is in the db, having the password
         val found = transaction {
             return@transaction UserDAO
-                .find { (UserTable.email eq user.email) and (UserTable.password eq user.password) and (UserTable.confirmation neq "")}
+                .find { (UserTable.email eq login.email!!) and (UserTable.password eq login.password) and (UserTable.confirmation neq "")}
                 .limit(1)
                 .map(::DAOtoUser)
                 .firstOrNull()
@@ -43,7 +44,7 @@ class DatabaseAuthentication(val secret: String, val issuer: String, val audienc
             .withIssuer(issuer)
             .withClaim("username", found.username)
             .withClaim("groups", found.groups!!.map { it.name })
-            .withClaim("id", user.id)
+            .withClaim("id", found.id)
             .withExpiresAt(Date(System.currentTimeMillis() + 6000000))
             .sign(Algorithm.HMAC256(secret))
     }

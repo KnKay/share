@@ -14,7 +14,3 @@ suspend fun HttpClient.getAsJsonPath(url: String): DocumentContext {
     }
     return JsonPath.parse(response.bodyAsText())
 }
-
-fun HttpClient.auth(user: User){
-
-}

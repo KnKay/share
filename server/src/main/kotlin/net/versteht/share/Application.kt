@@ -26,6 +26,7 @@ import net.versteht.share.objects.User
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import net.versteht.share.authentication.withRoles
+import net.versteht.share.objects.Login
 
 @Serializable
 data class test(val name: String)
@@ -109,7 +110,7 @@ internal fun Application.module() {
         }
 
         post("/login") {
-            val user = call.receive<User>()
+            val user = call.receive<Login>()
             val token = dbAuth.login(user)
             // do things needed to be done
             call.respond(hashMapOf("token" to token))
