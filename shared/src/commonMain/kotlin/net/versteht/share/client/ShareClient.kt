@@ -23,21 +23,21 @@ class ShareClient(client: HttpClient) {
 
 
     companion object Factory{
-        fun createInstance(baseUrl: String, email: String, password: String, engine: HttpClientEngine): ShareClient {
+        suspend fun createInstance(baseUrl: String, email: String, password: String, engine: HttpClientEngine): ShareClient  {
             val httpClient = HttpClient(engine) {
                 install(ContentNegotiation) {
                     json()
                 }
             }
-            val tokens = runBlocking {
-                httpClient.post("${baseUrl}/login"){
-                    header(
-                        HttpHeaders.ContentType,
-                        ContentType.Application.Json
-                    )
-                    setBody(Login(email = email, password = password))
-                }
+
+            httpClient.post("${baseUrl}/login"){
+                header(
+                    HttpHeaders.ContentType,
+                    ContentType.Application.Json
+                )
+                setBody(Login(email = email, password = password))
             }
+
             return ShareClient(httpClient)
 
         }
