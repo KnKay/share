@@ -15,12 +15,13 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.util.Hash
+import net.versteht.share.client.repositories.CategoryRepository
 import net.versteht.share.objects.Login
 
 // Our share client should encapsulate our application data...
 class ShareClient(client: HttpClient) {
     val client = client
-
+    val categoryRepository = CategoryRepository(client,"categories")
 
     companion object Factory{
         suspend fun createInstance(baseUrl: String, email: String, password: String, engine: HttpClientEngine): ShareClient  {
@@ -29,7 +30,6 @@ class ShareClient(client: HttpClient) {
                     json()
                 }
             }
-
             httpClient.post("${baseUrl}/login"){
                 header(
                     HttpHeaders.ContentType,
