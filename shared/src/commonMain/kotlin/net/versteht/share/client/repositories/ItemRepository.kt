@@ -31,4 +31,6 @@ class ItemRepository(val client: HttpClient, val path: String) : CrudRepositoryI
     }.body()
 
     override suspend fun list(): List<Item> = client.get(path).body<List<Item>>()
+
+    suspend fun byCategory(category: String) = client.get("${path}/by_category/{$category}").body<List<Item>>()
 }

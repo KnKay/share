@@ -40,7 +40,7 @@ internal fun Routing.items(path: String, repo: ItemJdbcRepository){
                     call.respond(HttpStatusCode.NotFound)
                 }
             }
-            get("/{category}") {
+            get("/by_category/{category}") {
                 val cat = call.parameters["category"]
                 val ret = repo.byCategory(cat!!)
                 if (ret != null) {
