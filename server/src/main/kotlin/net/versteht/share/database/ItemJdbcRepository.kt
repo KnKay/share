@@ -73,4 +73,11 @@ class  ItemJdbcRepository(database: Database) : CrudRepositoryInterface<Item> {
         DAOtoItem(dao)
     }
 
+    suspend fun byCategory(categoryName: String): List<Item>? = suspendTransaction {
+        val cat = CategoryDAO.find(CategoryTable.name eq categoryName).firstOrNull()?.toCategory()
+        if (cat == null ){
+            throw NotFoundException("Category not found")
+        }
+        ItemDAO.find{ItemTable.category eq cat.id}.map(::DAOtoItem)
+    }
 }
