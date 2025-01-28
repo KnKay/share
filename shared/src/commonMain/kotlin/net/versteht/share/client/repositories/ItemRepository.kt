@@ -9,27 +9,26 @@ import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import net.versteht.share.objects.Category
+import net.versteht.share.objects.Item
 import kotlin.collections.List
 
-class CategoryRepository(val client: HttpClient, val path: String) : CrudRepositoryInterface<Category> {
-    override suspend fun create(t: Category): Category? = client.post(path) {
+class ItemRepository(val client: HttpClient, val path: String) : CrudRepositoryInterface<Item> {
+    override suspend fun create(t: Item): Item? = client.post(path) {
             contentType(ContentType.Application.Json)
             setBody(t)
-        }.body<Category>()
+        }.body<Item>()
 
-    override suspend fun read(id: Int) = client.get("${path}/${id.toString()}").body<Category>()
+    override suspend fun read(id: Int) = client.get("${path}/${id.toString()}").body<Item>()
 
-    override suspend fun update(t: Category): Category = client.put(path){
+    override suspend fun update(t: Item): Item = client.put(path){
         contentType(ContentType.Application.Json)
         setBody(t)
-    }.body<Category>()
+    }.body<Item>()
 
-    override suspend fun delete(t: Category): Boolean = client.delete(path){
+    override suspend fun delete(t: Item): Boolean = client.delete(path){
         contentType(ContentType.Application.Json)
         setBody(t)
     }.body()
 
-    override suspend fun list(): List<Category> = client.get(path).body<List<Category>>()
-
+    override suspend fun list(): List<Item> = client.get(path).body<List<Item>>()
 }

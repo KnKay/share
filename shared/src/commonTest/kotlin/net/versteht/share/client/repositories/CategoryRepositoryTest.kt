@@ -14,7 +14,7 @@ import kotlin.test.assertEquals
 
 class CategoryRepositoryTest {
     @Test
-    fun testFactory() = runTest {
+    fun testList() = runTest {
         val mockEngine = MockEngine { request ->
             respond(
                 content = ByteReadChannel("""    [
