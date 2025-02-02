@@ -8,12 +8,13 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import net.versteht.share.database.CrudRepositoryInterface
 import net.versteht.share.authentication.AuthenticationInterface
+import net.versteht.share.database.ItemJdbcRepository
 import net.versteht.share.model.checkRights
 import net.versteht.share.model.postCreate
 import net.versteht.share.objects.Item
 import org.koin.ktor.ext.inject
 
-internal fun Routing.items(path: String, repo: CrudRepositoryInterface<Item> ){
+internal fun Routing.items(path: String, repo: ItemJdbcRepository){
         val authRepo by inject<AuthenticationInterface>()
     authenticate {
         route(path){
@@ -33,6 +34,15 @@ internal fun Routing.items(path: String, repo: CrudRepositoryInterface<Item> ){
             get("/{id}") {
                 val id = call.parameters["id"]!!.toInt()
                 val ret = repo.read(id)
+                if (ret != null) {
+                    call.respond(ret)
+                } else {
+                    call.respond(HttpStatusCode.NotFound)
+                }
+            }
+            get("/by_category/{category}") {
+                val cat = call.parameters["category"]
+                val ret = repo.byCategory(cat!!)
                 if (ret != null) {
                     call.respond(ret)
                 } else {

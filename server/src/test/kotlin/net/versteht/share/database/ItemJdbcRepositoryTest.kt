@@ -22,6 +22,10 @@ class ItemJdbcRepositoryTest {
                 name = "testCat"
                 open = true
             }
+            CategoryDAO.new {
+                name = "searchCat"
+                open = true
+            }
             GroupDAO.new { name = "testing" }
             UserDAO.new {
                 username = "tester"
@@ -117,5 +121,33 @@ class ItemJdbcRepositoryTest {
         dut.update(update)
         val readBack = dut.read(1)
         assertEquals(update.name, readBack?.name)
+    }
+
+    @Test
+    fun byCategory(): Unit = runTest{
+        val dut = getDut("catFilter")
+        transaction {
+             DAOtoItem( ItemDAO.new {
+                name = "myFirstItem"
+                category = CategoryDAO.findById(1)!!
+                owner = UserDAO.findById(1)!!
+                delegatedGroup = null
+            })
+            DAOtoItem( ItemDAO.new {
+                name = "mySecondItem"
+                category = CategoryDAO.findById(1)!!
+                owner = UserDAO.findById(1)!!
+                delegatedGroup = null
+            })
+            DAOtoItem( ItemDAO.new {
+                name = "myThirdItem"
+                category = CategoryDAO.findById(2)!!
+                owner = UserDAO.findById(1)!!
+                delegatedGroup = null
+            })
+        }
+        val one = dut.byCategory("searchCat")
+        assertEquals(1, one?.size)
+        assertEquals(2, dut.byCategory("testCat")?.size)
     }
 }

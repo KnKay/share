@@ -100,7 +100,7 @@ internal fun Application.module() {
         post("/login") {
             val user = call.receive<Login>()
             val token = dbAuth.login(user)
-            call.respond(hashMapOf("token" to token))
+            call.respond(token)
         }
         authenticate() {
             post("/refresh") {

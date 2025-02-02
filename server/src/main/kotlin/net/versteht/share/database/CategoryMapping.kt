@@ -15,6 +15,8 @@ class CategoryDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<CategoryDAO>(CategoryTable)
     var name by CategoryTable.name
     var open by CategoryTable.open
+
+    fun toCategory(): Category = DAOtoCategory(this)
 }
 
 fun DAOtoCategory(dao: CategoryDAO): Category = Category(dao.name, dao.open, dao.id.value)
